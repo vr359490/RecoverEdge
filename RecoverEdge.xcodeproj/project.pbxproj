@@ -1,0 +1,617 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		12C33F472E00A6FF00BA6067 /* RecoverEdgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */; };
+		12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F482E00A6FF00BA6067 /* ContentView.swift */; };
+		12C33F4B2E00A70200BA6067 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4A2E00A70200BA6067 /* Assets.xcassets */; };
+		12C33F4F2E00A70200BA6067 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */; };
+		12C33F592E00A70300BA6067 /* RecoverEdgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F582E00A70300BA6067 /* RecoverEdgeTests.swift */; };
+		12C33F632E00A70300BA6067 /* RecoverEdgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F622E00A70300BA6067 /* RecoverEdgeUITests.swift */; };
+		12C33F652E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F642E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		12C33F552E00A70200BA6067 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 12C33F3B2E00A6FF00BA6067 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 12C33F422E00A6FF00BA6067;
+			remoteInfo = RecoverEdge;
+		};
+		12C33F5F2E00A70300BA6067 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 12C33F3B2E00A6FF00BA6067 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 12C33F422E00A6FF00BA6067;
+			remoteInfo = RecoverEdge;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		12C33F432E00A6FF00BA6067 /* RecoverEdge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecoverEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeApp.swift; sourceTree = "<group>"; };
+		12C33F482E00A6FF00BA6067 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		12C33F4A2E00A70200BA6067 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RecoverEdge.entitlements; sourceTree = "<group>"; };
+		12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		12C33F542E00A70200BA6067 /* RecoverEdgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecoverEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		12C33F582E00A70300BA6067 /* RecoverEdgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeTests.swift; sourceTree = "<group>"; };
+		12C33F5E2E00A70300BA6067 /* RecoverEdgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecoverEdgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		12C33F622E00A70300BA6067 /* RecoverEdgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeUITests.swift; sourceTree = "<group>"; };
+		12C33F642E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		12C33F402E00A6FF00BA6067 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12C33F512E00A70200BA6067 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12C33F5B2E00A70300BA6067 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		12C33F3A2E00A6FF00BA6067 = {
+			isa = PBXGroup;
+			children = (
+				12C33F452E00A6FF00BA6067 /* RecoverEdge */,
+				12C33F572E00A70300BA6067 /* RecoverEdgeTests */,
+				12C33F612E00A70300BA6067 /* RecoverEdgeUITests */,
+				12C33F442E00A6FF00BA6067 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		12C33F442E00A6FF00BA6067 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				12C33F432E00A6FF00BA6067 /* RecoverEdge.app */,
+				12C33F542E00A70200BA6067 /* RecoverEdgeTests.xctest */,
+				12C33F5E2E00A70300BA6067 /* RecoverEdgeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		12C33F452E00A6FF00BA6067 /* RecoverEdge */ = {
+			isa = PBXGroup;
+			children = (
+				12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */,
+				12C33F482E00A6FF00BA6067 /* ContentView.swift */,
+				12C33F4A2E00A70200BA6067 /* Assets.xcassets */,
+				12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */,
+				12C33F4D2E00A70200BA6067 /* Preview Content */,
+			);
+			path = RecoverEdge;
+			sourceTree = "<group>";
+		};
+		12C33F4D2E00A70200BA6067 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		12C33F572E00A70300BA6067 /* RecoverEdgeTests */ = {
+			isa = PBXGroup;
+			children = (
+				12C33F582E00A70300BA6067 /* RecoverEdgeTests.swift */,
+			);
+			path = RecoverEdgeTests;
+			sourceTree = "<group>";
+		};
+		12C33F612E00A70300BA6067 /* RecoverEdgeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				12C33F622E00A70300BA6067 /* RecoverEdgeUITests.swift */,
+				12C33F642E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift */,
+			);
+			path = RecoverEdgeUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		12C33F422E00A6FF00BA6067 /* RecoverEdge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12C33F682E00A70300BA6067 /* Build configuration list for PBXNativeTarget "RecoverEdge" */;
+			buildPhases = (
+				12C33F3F2E00A6FF00BA6067 /* Sources */,
+				12C33F402E00A6FF00BA6067 /* Frameworks */,
+				12C33F412E00A6FF00BA6067 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RecoverEdge;
+			productName = RecoverEdge;
+			productReference = 12C33F432E00A6FF00BA6067 /* RecoverEdge.app */;
+			productType = "com.apple.product-type.application";
+		};
+		12C33F532E00A70200BA6067 /* RecoverEdgeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12C33F6B2E00A70300BA6067 /* Build configuration list for PBXNativeTarget "RecoverEdgeTests" */;
+			buildPhases = (
+				12C33F502E00A70200BA6067 /* Sources */,
+				12C33F512E00A70200BA6067 /* Frameworks */,
+				12C33F522E00A70200BA6067 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				12C33F562E00A70200BA6067 /* PBXTargetDependency */,
+			);
+			name = RecoverEdgeTests;
+			productName = RecoverEdgeTests;
+			productReference = 12C33F542E00A70200BA6067 /* RecoverEdgeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		12C33F5D2E00A70300BA6067 /* RecoverEdgeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12C33F6E2E00A70300BA6067 /* Build configuration list for PBXNativeTarget "RecoverEdgeUITests" */;
+			buildPhases = (
+				12C33F5A2E00A70300BA6067 /* Sources */,
+				12C33F5B2E00A70300BA6067 /* Frameworks */,
+				12C33F5C2E00A70300BA6067 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				12C33F602E00A70300BA6067 /* PBXTargetDependency */,
+			);
+			name = RecoverEdgeUITests;
+			productName = RecoverEdgeUITests;
+			productReference = 12C33F5E2E00A70300BA6067 /* RecoverEdgeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		12C33F3B2E00A6FF00BA6067 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					12C33F422E00A6FF00BA6067 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					12C33F532E00A70200BA6067 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 12C33F422E00A6FF00BA6067;
+					};
+					12C33F5D2E00A70300BA6067 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 12C33F422E00A6FF00BA6067;
+					};
+				};
+			};
+			buildConfigurationList = 12C33F3E2E00A6FF00BA6067 /* Build configuration list for PBXProject "RecoverEdge" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 12C33F3A2E00A6FF00BA6067;
+			productRefGroup = 12C33F442E00A6FF00BA6067 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				12C33F422E00A6FF00BA6067 /* RecoverEdge */,
+				12C33F532E00A70200BA6067 /* RecoverEdgeTests */,
+				12C33F5D2E00A70300BA6067 /* RecoverEdgeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		12C33F412E00A6FF00BA6067 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C33F4F2E00A70200BA6067 /* Preview Assets.xcassets in Resources */,
+				12C33F4B2E00A70200BA6067 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12C33F522E00A70200BA6067 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12C33F5C2E00A70300BA6067 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		12C33F3F2E00A6FF00BA6067 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
+				12C33F472E00A6FF00BA6067 /* RecoverEdgeApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12C33F502E00A70200BA6067 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C33F592E00A70300BA6067 /* RecoverEdgeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12C33F5A2E00A70300BA6067 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C33F652E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift in Sources */,
+				12C33F632E00A70300BA6067 /* RecoverEdgeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		12C33F562E00A70200BA6067 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 12C33F422E00A6FF00BA6067 /* RecoverEdge */;
+			targetProxy = 12C33F552E00A70200BA6067 /* PBXContainerItemProxy */;
+		};
+		12C33F602E00A70300BA6067 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 12C33F422E00A6FF00BA6067 /* RecoverEdge */;
+			targetProxy = 12C33F5F2E00A70300BA6067 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		12C33F662E00A70300BA6067 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		12C33F672E00A70300BA6067 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		12C33F692E00A70300BA6067 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RecoverEdge/RecoverEdge.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"RecoverEdge/Preview Content\"";
+				DEVELOPMENT_TEAM = GFSCH52V97;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Valley.RecoverEdge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		12C33F6A2E00A70300BA6067 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RecoverEdge/RecoverEdge.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"RecoverEdge/Preview Content\"";
+				DEVELOPMENT_TEAM = GFSCH52V97;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Valley.RecoverEdge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		12C33F6C2E00A70300BA6067 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GFSCH52V97;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Valley.RecoverEdgeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RecoverEdge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RecoverEdge";
+			};
+			name = Debug;
+		};
+		12C33F6D2E00A70300BA6067 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GFSCH52V97;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Valley.RecoverEdgeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RecoverEdge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RecoverEdge";
+			};
+			name = Release;
+		};
+		12C33F6F2E00A70300BA6067 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GFSCH52V97;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Valley.RecoverEdgeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RecoverEdge;
+			};
+			name = Debug;
+		};
+		12C33F702E00A70300BA6067 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GFSCH52V97;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Valley.RecoverEdgeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RecoverEdge;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		12C33F3E2E00A6FF00BA6067 /* Build configuration list for PBXProject "RecoverEdge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12C33F662E00A70300BA6067 /* Debug */,
+				12C33F672E00A70300BA6067 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12C33F682E00A70300BA6067 /* Build configuration list for PBXNativeTarget "RecoverEdge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12C33F692E00A70300BA6067 /* Debug */,
+				12C33F6A2E00A70300BA6067 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12C33F6B2E00A70300BA6067 /* Build configuration list for PBXNativeTarget "RecoverEdgeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12C33F6C2E00A70300BA6067 /* Debug */,
+				12C33F6D2E00A70300BA6067 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12C33F6E2E00A70300BA6067 /* Build configuration list for PBXNativeTarget "RecoverEdgeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12C33F6F2E00A70300BA6067 /* Debug */,
+				12C33F702E00A70300BA6067 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 12C33F3B2E00A6FF00BA6067 /* Project object */;
+}
