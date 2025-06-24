@@ -22,9 +22,11 @@ enum Location: String, CaseIterable {
     case hotel = "Hotel"
     case home = "Home"
     case outdoors = "Outdoors"
+    case none = ""
     
     var availableEquipment: [Equipment] {
         switch self {
+        case .none: return []
         case .gym:
             return [
                 Equipment(name: "Foam Roller", category: "Recovery"),
@@ -207,6 +209,7 @@ extension Color {
     }
     static let brandTeal = Color(r: 91, g: 225, b: 212)
     static let brandTeal2 = Color(r:80, g:190, b:190)
+    static let brandTealDark = Color(r:50, g:123, b:127)
 }
 
 // MARK: - Main Content View
@@ -222,22 +225,33 @@ struct ContentView: View {
                 }
                 .environmentObject(dataStore)
             
+            Text("Test Tab")
+                .tabItem {
+                    Image(systemName: "bubble.left")
+                    Text("Chat")
+                }
+            
             RecoveryLibraryView()
                 .tabItem {
                     Image(systemName: "books.vertical")
                     Text("Library")
                 }
                 .environmentObject(dataStore)
+
         }
         .accentColor(Color.brandTeal2)
     }
 }
 
+
+
 // MARK: - Plan Generator View
 struct PlanGeneratorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
-    @State private var selectedTime: Int = 15
-    @State private var selectedLocation: Location = .home
+    @State private var selectedTime: Int = 0
+    //@State private var selectedLocation: Location = .home
+    @State private var selectedLocation: Location = .none
+    @State private var selectedEquipmentNames: Set<String> = []
     @State private var selectedEquipment: Set<Equipment> = []
     @State private var customTime: String = ""
     @State private var showingCustomTime = false
@@ -287,19 +301,42 @@ struct PlanGeneratorView: View {
                                 )
                                 
                                 Button(action: { showingCustomTime.toggle() }) {
-                                    Text("Custom")
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 20)
+                                    VStack{
+                                        Image(systemName:"timer")
+                                            .font(.system(size: 35))
+                                        Text("CUSTOM")
+                                        .   font(.system(size: 14, weight: .bold))
+                                        
+                                    }
+                                        .padding(.horizontal, 30)
+                                        .padding(.vertical, 30)
+                                        
+//                                    Text("CUSTOM")
+//                                        .padding(.horizontal, 30)
+//                                        .padding(.vertical, 30)
+//                                        .font(.system(size: 16, weight: .bold))
                                         .background(
                                             Group {
                                                 if showingCustomTime {
+//                                                    LinearGradient(
+//                                                        colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+//                                                        startPoint: .bottom,
+//                                                        endPoint: .top
+                                                    //Color.brandTealDark
+                                                    LinearGradient(
+                                                        colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
+                                                        startPoint: .bottom,
+                                                        endPoint: .top
+                                                    )
+                                                    
+//                                                    )
+                                                } else {
+//                                                    Color.gray.opacity(0.2)
                                                     LinearGradient(
                                                         colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
                                                         startPoint: .bottom,
                                                         endPoint: .top
                                                     )
-                                                } else {
-                                                    Color.gray.opacity(0.2)
                                                 }
                                             }
                                         )
@@ -326,7 +363,7 @@ struct PlanGeneratorView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
-                                ForEach(Location.allCases, id: \.self) { location in
+                                ForEach(Location.allCases.filter { $0 != .none }, id: \.self) { location in
                                     LocationButton(
                                         location: location,
                                         isSelected: selectedLocation == location,
@@ -350,12 +387,12 @@ struct PlanGeneratorView: View {
                             ForEach(selectedLocation.availableEquipment, id: \.id) { equipment in
                                 EquipmentButton(
                                     equipment: equipment,
-                                    isSelected: selectedEquipment.contains(equipment),
+                                    isSelected: selectedEquipmentNames.contains(equipment.name),
                                     action: {
-                                        if selectedEquipment.contains(equipment) {
-                                            selectedEquipment.remove(equipment)
+                                        if selectedEquipmentNames.contains(equipment.name) {
+                                            selectedEquipmentNames.remove(equipment.name)
                                         } else {
-                                            selectedEquipment.insert(equipment)
+                                            selectedEquipmentNames.insert(equipment.name)
                                         }
                                     }
                                 )
@@ -445,24 +482,35 @@ struct TimeButton: View {
         Button(action: action) {
                 VStack(spacing: 0) {
                     Text("\(time)")
-                        .font(.system(size: 24, weight: .bold))
-                    Text("min")
-                        .font(.system(size: 14))
+                        .font(.system(size: 28, weight: .bold))
+                    Text("MIN")
+                        .font(.system(size: 18, weight: .bold))
                 }
                 .multilineTextAlignment(.center)
             //Text("\(time)\nmin")
-                .padding(.horizontal, 16)
-                .padding(.vertical, 20)
+                .padding(.horizontal, 39)
+                .padding(.vertical, 30)
                 //.font(.system(size: 21, weight: .bold))
                 .background(Group {
                     if isSelected {
+//                        LinearGradient(
+//                            colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+//                            startPoint: .bottom,
+//                            endPoint: .top
+                        //Color.brandTealDark
+                        LinearGradient(
+                            colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
+//                        )
+                    } else {
+//                        Color.gray.opacity(0.2)
                         LinearGradient(
                             colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
                             startPoint: .bottom,
                             endPoint: .top
                         )
-                    } else {
-                        Color.gray.opacity(0.2)
                     }
                 })
                 .foregroundColor(isSelected ? .white : .primary)
@@ -489,13 +537,24 @@ struct LocationButton: View {
             .background(
                 Group {
                 if isSelected {
+//                    LinearGradient(
+//                        colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+//                        startPoint: .bottom,
+//                        endPoint: .top
+                    LinearGradient(
+                        //colors: [Color.black, Color.black, Color(r:30, g:80, b:80), Color.brandTealDark],
+                        colors: [Color.brandTeal2, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+//                    )
+                } else {
+//                    Color.gray.opacity(0.2)
                     LinearGradient(
                         colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
                         startPoint: .bottom,
                         endPoint: .top
                     )
-                } else {
-                    Color.gray.opacity(0.2)
                 }
             }
             )
@@ -510,6 +569,7 @@ struct LocationButton: View {
         case .hotel: return "bed.double"
         case .home: return "house"
         case .outdoors: return "tree"
+        case .none: return ""
         }
     }
 }
@@ -537,7 +597,7 @@ struct EquipmentButton: View {
                         Color.gray.opacity(0.2)
                     }
                 })
-                .foregroundColor(isSelected ? .white : .primary)
+                .foregroundColor(isSelected ? .black : .primary)
                 .cornerRadius(8)
         }
     }

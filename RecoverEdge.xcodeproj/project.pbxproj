@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		12C33F432E00A6FF00BA6067 /* RecoverEdge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecoverEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeApp.swift; sourceTree = "<group>"; };
-		12C33F482E00A6FF00BA6067 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		12C33F482E00A6FF00BA6067 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		12C33F4A2E00A70200BA6067 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RecoverEdge.entitlements; sourceTree = "<group>"; };
 		12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
