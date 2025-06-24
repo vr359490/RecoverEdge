@@ -78,7 +78,8 @@ RecoverEdge is a SwiftUI-based iOS application that generates personalized physi
 
 ## Screenshots
 
-> _Add screenshots here demonstrating the plan generator and the recovery library views._
+<img width="347" alt="test screenshot" src="https://github.com/user-attachments/assets/9a8b6dda-9909-4f82-9df8-4c157fa5df2c" />
+
 
 ---
 
