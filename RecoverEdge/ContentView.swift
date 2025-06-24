@@ -197,10 +197,22 @@ class RecoveryDataStore: ObservableObject {
     ]
 }
 
+extension Color {
+    init(r: Int, g: Int, b: Int) {
+        self.init(
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue: Double(b) / 255
+        )
+    }
+    static let brandTeal = Color(r: 91, g: 225, b: 212)
+    static let brandTeal2 = Color(r:80, g:190, b:190)
+}
+
 // MARK: - Main Content View
 struct ContentView: View {
     @StateObject private var dataStore = RecoveryDataStore()
-    
+
     var body: some View {
         TabView {
             PlanGeneratorView()
@@ -217,7 +229,7 @@ struct ContentView: View {
                 }
                 .environmentObject(dataStore)
         }
-        .accentColor(.blue)
+        .accentColor(Color.brandTeal2)
     }
 }
 
@@ -240,33 +252,64 @@ struct PlanGeneratorView: View {
                 VStack(spacing: 20) {
                     // Time Selection
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Available Time")
-                            .font(.headline)
+//                        Text(" Available Time")
+//                            .font(.headline)
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
+                        VStack(spacing: 12) {
                             HStack(spacing: 12) {
-                                ForEach(timeOptions, id: \.self) { time in
-                                    TimeButton(
-                                        time: time,
-                                        isSelected: selectedTime == time && !showingCustomTime,
-                                        action: {
-                                            selectedTime = time
-                                            showingCustomTime = false
-                                        }
-                                    )
-                                }
+                                TimeButton(
+                                    time: timeOptions[0], // "15 min"
+                                    isSelected: selectedTime == timeOptions[0] && !showingCustomTime,
+                                    action: {
+                                        selectedTime = timeOptions[0]
+                                        showingCustomTime = false
+                                    }
+                                )
+                                
+                                TimeButton(
+                                    time: timeOptions[1], // "25 min"
+                                    isSelected: selectedTime == timeOptions[1] && !showingCustomTime,
+                                    action: {
+                                        selectedTime = timeOptions[1]
+                                        showingCustomTime = false
+                                    }
+                                )
+                            }
+                            
+                            HStack(spacing: 12) {
+                                TimeButton(
+                                    time: timeOptions[2], // "45 min"
+                                    isSelected: selectedTime == timeOptions[2] && !showingCustomTime,
+                                    action: {
+                                        selectedTime = timeOptions[2]
+                                        showingCustomTime = false
+                                    }
+                                )
                                 
                                 Button(action: { showingCustomTime.toggle() }) {
                                     Text("Custom")
                                         .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .background(showingCustomTime ? Color.blue : Color.gray.opacity(0.2))
+                                        .padding(.vertical, 20)
+                                        .background(
+                                            Group {
+                                                if showingCustomTime {
+                                                    LinearGradient(
+                                                        colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                                                        startPoint: .bottom,
+                                                        endPoint: .top
+                                                    )
+                                                } else {
+                                                    Color.gray.opacity(0.2)
+                                                }
+                                            }
+                                        )
                                         .foregroundColor(showingCustomTime ? .white : .primary)
                                         .cornerRadius(20)
                                 }
                             }
-                            .padding(.horizontal)
                         }
+                        .frame(maxWidth: .infinity) // Force center alignment
+                        .padding(.horizontal)
                         
                         if showingCustomTime {
                             TextField("Minutes", text: $customTime)
@@ -328,14 +371,14 @@ struct PlanGeneratorView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
+                            .background(.black)
                             .cornerRadius(12)
                     }
                     .padding(.horizontal)
                     .padding(.top, 20)
                 }
             }
-            .navigationTitle("Recovery Generator")
+            .navigationTitle("User Test's RecoverEdge")
         }
         .sheet(isPresented: $showingPlan) {
             GeneratedPlanView(methods: generatedPlan, totalTime: getTotalTime())
@@ -400,10 +443,28 @@ struct TimeButton: View {
     
     var body: some View {
         Button(action: action) {
-            Text("\(time) min")
+                VStack(spacing: 0) {
+                    Text("\(time)")
+                        .font(.system(size: 24, weight: .bold))
+                    Text("min")
+                        .font(.system(size: 14))
+                }
+                .multilineTextAlignment(.center)
+            //Text("\(time)\nmin")
                 .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(isSelected ? Color.blue : Color.gray.opacity(0.2))
+                .padding(.vertical, 20)
+                //.font(.system(size: 21, weight: .bold))
+                .background(Group {
+                    if isSelected {
+                        LinearGradient(
+                            colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
+                    } else {
+                        Color.gray.opacity(0.2)
+                    }
+                })
                 .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(20)
         }
@@ -425,7 +486,19 @@ struct LocationButton: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(isSelected ? Color.blue : Color.gray.opacity(0.2))
+            .background(
+                Group {
+                if isSelected {
+                    LinearGradient(
+                        colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                } else {
+                    Color.gray.opacity(0.2)
+                }
+            }
+            )
             .foregroundColor(isSelected ? .white : .primary)
             .cornerRadius(12)
         }
@@ -452,7 +525,18 @@ struct EquipmentButton: View {
                 .font(.caption)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .background(isSelected ? Color.blue : Color.gray.opacity(0.2))
+                .background(
+                    Group {
+                    if isSelected {
+                        LinearGradient(
+                            colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
+                    } else {
+                        Color.gray.opacity(0.2)
+                    }
+                })
                 .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(8)
         }
@@ -523,7 +607,7 @@ struct MethodCard: View {
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.blue.opacity(0.2))
+                    .background(Color.brandTeal.opacity(0.2))
                     .cornerRadius(4)
                 
                 Spacer()
@@ -555,7 +639,7 @@ struct MethodCard: View {
                         Text("Why?")
                     }
                     .font(.caption)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.black)
                 }
             }
         }
@@ -604,7 +688,7 @@ struct ResearchView: View {
                             HStack {
                                 ForEach(1...3, id: \.self) { level in
                                     Circle()
-                                        .fill(level <= method.difficulty ? Color.blue : Color.gray.opacity(0.3))
+                                        .fill(level <= method.difficulty ? Color.brandTeal : Color.gray.opacity(0.3))
                                         .frame(width: 8, height: 8)
                                 }
                             }
@@ -631,6 +715,8 @@ struct ResearchView: View {
 }
 
 // MARK: - Recovery Library View
+
+
 struct RecoveryLibraryView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @State private var showingResearch: RecoveryMethod?
@@ -682,7 +768,7 @@ struct MethodListRow: View {
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(Color.blue.opacity(0.2))
+                    .background(Color.brandTeal.opacity(0.2))
                     .cornerRadius(4)
                 
                 Spacer()
@@ -693,7 +779,7 @@ struct MethodListRow: View {
                         Text("Research")
                     }
                     .font(.caption)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.black)
                 }
             }
         }
