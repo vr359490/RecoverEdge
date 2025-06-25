@@ -15,6 +15,18 @@ struct Equipment: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let category: String
+    
+    // Consider equipments the same when they have the same name, not UUID
+    
+    // Custom equality based on name
+    static func == (lhs: Equipment, rhs: Equipment) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
+    // Custom hash based on name
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
 }
 
 enum Location: String, CaseIterable {
@@ -243,13 +255,10 @@ struct ContentView: View {
     }
 }
 
-
-
 // MARK: - Plan Generator View
 struct PlanGeneratorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @State private var selectedTime: Int = 0
-    //@State private var selectedLocation: Location = .home
     @State private var selectedLocation: Location = .none
     @State private var selectedEquipmentNames: Set<String> = []
     @State private var selectedEquipment: Set<Equipment> = []
@@ -311,27 +320,16 @@ struct PlanGeneratorView: View {
                                         .padding(.horizontal, 30)
                                         .padding(.vertical, 30)
                                         
-//                                    Text("CUSTOM")
-//                                        .padding(.horizontal, 30)
-//                                        .padding(.vertical, 30)
-//                                        .font(.system(size: 16, weight: .bold))
                                         .background(
                                             Group {
                                                 if showingCustomTime {
-//                                                    LinearGradient(
-//                                                        colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
-//                                                        startPoint: .bottom,
-//                                                        endPoint: .top
-                                                    //Color.brandTealDark
                                                     LinearGradient(
                                                         colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
                                                         startPoint: .bottom,
                                                         endPoint: .top
                                                     )
                                                     
-//                                                    )
                                                 } else {
-//                                                    Color.gray.opacity(0.2)
                                                     LinearGradient(
                                                         colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
                                                         startPoint: .bottom,
@@ -370,6 +368,7 @@ struct PlanGeneratorView: View {
                                         action: {
                                             selectedLocation = location
                                             selectedEquipment = []
+                                            selectedEquipmentNames.removeAll()
                                         }
                                     )
                                 }
@@ -391,8 +390,10 @@ struct PlanGeneratorView: View {
                                     action: {
                                         if selectedEquipmentNames.contains(equipment.name) {
                                             selectedEquipmentNames.remove(equipment.name)
+                                            selectedEquipment.remove(equipment)
                                         } else {
                                             selectedEquipmentNames.insert(equipment.name)
+                                            selectedEquipment.insert(equipment)
                                         }
                                     }
                                 )
@@ -433,6 +434,7 @@ struct PlanGeneratorView: View {
     private func generatePlan() {
         let targetTime = getTotalTime()
         let availableEquipmentNames = selectedEquipment.map { $0.name } + [""] // Include methods that need no equipment
+        print("oogie boogie",availableEquipmentNames)
         
         let suitableMethods = dataStore.recoveryMethods.filter { method in
             method.equipment.isEmpty || method.equipment.allSatisfy { availableEquipmentNames.contains($0) }
@@ -487,25 +489,16 @@ struct TimeButton: View {
                         .font(.system(size: 18, weight: .bold))
                 }
                 .multilineTextAlignment(.center)
-            //Text("\(time)\nmin")
                 .padding(.horizontal, 39)
                 .padding(.vertical, 30)
-                //.font(.system(size: 21, weight: .bold))
                 .background(Group {
                     if isSelected {
-//                        LinearGradient(
-//                            colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
-//                            startPoint: .bottom,
-//                            endPoint: .top
-                        //Color.brandTealDark
                         LinearGradient(
                             colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
                             startPoint: .bottom,
                             endPoint: .top
                         )
-//                        )
                     } else {
-//                        Color.gray.opacity(0.2)
                         LinearGradient(
                             colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
                             startPoint: .bottom,
@@ -537,19 +530,12 @@ struct LocationButton: View {
             .background(
                 Group {
                 if isSelected {
-//                    LinearGradient(
-//                        colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
-//                        startPoint: .bottom,
-//                        endPoint: .top
                     LinearGradient(
-                        //colors: [Color.black, Color.black, Color(r:30, g:80, b:80), Color.brandTealDark],
                         colors: [Color.brandTeal2, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
                         startPoint: .bottom,
                         endPoint: .top
                     )
-//                    )
                 } else {
-//                    Color.gray.opacity(0.2)
                     LinearGradient(
                         colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
                         startPoint: .bottom,
@@ -589,7 +575,7 @@ struct EquipmentButton: View {
                     Group {
                     if isSelected {
                         LinearGradient(
-                            colors: [Color(r:98, g:252, b:236),Color.brandTeal,Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                            colors: [Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
                             startPoint: .bottom,
                             endPoint: .top
                         )
@@ -597,7 +583,7 @@ struct EquipmentButton: View {
                         Color.gray.opacity(0.2)
                     }
                 })
-                .foregroundColor(isSelected ? .black : .primary)
+                .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(8)
         }
     }
@@ -775,7 +761,6 @@ struct ResearchView: View {
 }
 
 // MARK: - Recovery Library View
-
 
 struct RecoveryLibraryView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
