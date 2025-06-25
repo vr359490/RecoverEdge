@@ -1,4 +1,70 @@
 import SwiftUI
+import WebKit
+
+struct VimeoPlayerView: UIViewRepresentable {
+    let vimeoID: String
+    let shouldAutoplay: Bool
+    
+    init(vimeoID: String, shouldAutoplay: Bool = true) {
+        self.vimeoID = vimeoID
+        self.shouldAutoplay = shouldAutoplay
+    }
+    
+    func makeUIView(context: Context) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        config.allowsInlineMediaPlayback = true
+        config.mediaTypesRequiringUserActionForPlayback = []
+        
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.scrollView.isScrollEnabled = false
+        webView.navigationDelegate = context.coordinator
+        return webView
+    }
+    
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        let autoplayParam = shouldAutoplay ? "1" : "0"
+        
+        let embedHTML = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body { margin: 0; padding: 0; background: black; }
+                .video-container { position: relative; width: 100%; height: 100vh; }
+                iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+            </style>
+        </head>
+        <body>
+            <div class="video-container">
+                <iframe src="https://player.vimeo.com/video/\(vimeoID)?autoplay=\(autoplayParam)&muted=1&badge=0&autopause=0&player_id=0&app_id=58479"
+                        frameborder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowfullscreen
+                        title="Recovery Method Video">
+                </iframe>
+            </div>
+        </body>
+        </html>
+        """
+        
+        webView.loadHTMLString(embedHTML, baseURL: nil)
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+    
+    class Coordinator: NSObject, WKNavigationDelegate {
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            print("Vimeo video loaded successfully")
+        }
+        
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            print("Vimeo video failed to load: \(error.localizedDescription)")
+        }
+    }
+}
 
 //// MARK: - Main App
 //@main
@@ -110,7 +176,7 @@ class RecoveryDataStore: ObservableObject {
             duration: 10,
             equipment: ["Wall"],
             difficulty: 1,
-            videoURL: nil,
+            videoURL: "676247342",
             researchInfo: "This passive inversion helps improve venous return, reducing swelling and promoting relaxation. Studies show it can help lower heart rate and activate the parasympathetic nervous system.",
             category: "Passive Recovery"
         ),
@@ -120,7 +186,7 @@ class RecoveryDataStore: ObservableObject {
             duration: 8,
             equipment: ["Foam Roller"],
             difficulty: 2,
-            videoURL: nil,
+            videoURL: "676247342",
             researchInfo: "Foam rolling helps break up fascial adhesions and improve blood flow. Research indicates it can reduce muscle soreness by 13% and improve range of motion.",
             category: "Self Massage"
         ),
@@ -130,7 +196,7 @@ class RecoveryDataStore: ObservableObject {
             duration: 5,
             equipment: [],
             difficulty: 1,
-            videoURL: nil,
+            videoURL: "676247342",
             researchInfo: "Deep breathing activates the vagus nerve, triggering the body's relaxation response. Studies show it can reduce cortisol levels by up to 25%.",
             category: "Breathing"
         ),
@@ -434,7 +500,6 @@ struct PlanGeneratorView: View {
     private func generatePlan() {
         let targetTime = getTotalTime()
         let availableEquipmentNames = selectedEquipment.map { $0.name } + [""] // Include methods that need no equipment
-        print("oogie boogie",availableEquipmentNames)
         
         let suitableMethods = dataStore.recoveryMethods.filter { method in
             method.equipment.isEmpty || method.equipment.allSatisfy { availableEquipmentNames.contains($0) }
@@ -641,10 +706,67 @@ struct GeneratedPlanView: View {
     }
 }
 
+//struct MethodCard: View {
+//    let method: RecoveryMethod
+//    let stepNumber: Int
+//    let showResearchAction: () -> Void
+//
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 12) {
+//            HStack {
+//                Text("Step \(stepNumber)")
+//                    .font(.caption)
+//                    .padding(.horizontal, 8)
+//                    .padding(.vertical, 4)
+//                    .background(Color.brandTeal.opacity(0.2))
+//                    .cornerRadius(4)
+//
+//                Spacer()
+//
+//                Text("\(method.duration) min")
+//                    .font(.caption)
+//                    .foregroundColor(.secondary)
+//            }
+//
+//            Text(method.name)
+//                .font(.headline)
+//
+//            Text(method.description)
+//                .font(.body)
+//                .foregroundColor(.secondary)
+//
+//            HStack {
+//                if !method.equipment.isEmpty {
+//                    Label("Equipment: \(method.equipment.joined(separator: ", "))", systemImage: "wrench.adjustable")
+//                        .font(.caption)
+//                        .foregroundColor(.secondary)
+//                }
+//
+//                Spacer()
+//
+//                Button(action: showResearchAction) {
+//                    HStack(spacing: 4) {
+//                        Image(systemName: "questionmark.circle")
+//                        Text("Why?")
+//                    }
+//                    .font(.caption)
+//                    .foregroundColor(.black)
+//                }
+//            }
+//        }
+//        .padding()
+//        .background(Color(.systemGray6))
+//        .cornerRadius(12)
+//    }
+//}
+
 struct MethodCard: View {
     let method: RecoveryMethod
     let stepNumber: Int
     let showResearchAction: () -> Void
+    @State private var showingVideo = false
+    @State private var isVideoLoading = true
+    @State private var shouldAutoplay = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -670,6 +792,75 @@ struct MethodCard: View {
                 .font(.body)
                 .foregroundColor(.secondary)
             
+            // Expandable Video Section with Autoplay
+            if showingVideo {
+                VStack(spacing: 8) {
+                    // Video header
+                    HStack {
+                        HStack(spacing: 6) {
+                            Image(systemName: "play.rectangle.fill")
+                                .foregroundColor(.blue)
+                            Text("Demonstration Video")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        
+                        Spacer()
+                        
+                        // Play/Pause indicator
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(Color.red)
+                                .frame(width: 8, height: 8)
+                                .opacity(shouldAutoplay ? 1 : 0.3)
+                            Text(shouldAutoplay ? "Playing" : "Paused")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    // Video player with autoplay
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.black)
+                            .frame(height: 200)
+                            .cornerRadius(8)
+                        
+                        if isVideoLoading {
+                            VStack(spacing: 8) {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(1.2)
+                                Text("Loading video...")
+                                    .foregroundColor(.white)
+                                    .font(.caption)
+                            }
+                        }
+                        
+                        if let vimeoID = method.videoURL, !vimeoID.isEmpty {
+                            VimeoPlayerView(vimeoID: vimeoID, shouldAutoplay: shouldAutoplay)
+                                .frame(height: 200)
+                                .cornerRadius(8)
+                                .opacity(isVideoLoading ? 0 : 1)
+                                .onAppear {
+                                    // Trigger autoplay after video appears
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                        shouldAutoplay = true
+                                        withAnimation(.easeInOut(duration: 0.5)) {
+                                            isVideoLoading = false
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+                .transition(.asymmetric(
+                    insertion: .opacity.combined(with: .scale(scale: 0.95)).combined(with: .move(edge: .top)),
+                    removal: .opacity.combined(with: .scale(scale: 0.95))
+                ))
+            }
+            
             HStack {
                 if !method.equipment.isEmpty {
                     Label("Equipment: \(method.equipment.joined(separator: ", "))", systemImage: "wrench.adjustable")
@@ -678,6 +869,40 @@ struct MethodCard: View {
                 }
                 
                 Spacer()
+                
+                // Enhanced video button with play indication
+                if let vimeoID = method.videoURL, !vimeoID.isEmpty {
+                    Button(action: {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                            showingVideo.toggle()
+                            if showingVideo {
+                                isVideoLoading = true
+                                shouldAutoplay = false // Reset autoplay state
+                            } else {
+                                shouldAutoplay = false // Stop autoplay when hiding
+                            }
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: showingVideo ? "stop.circle.fill" : "play.circle.fill")
+                                .foregroundColor(showingVideo ? .red : .blue)
+                            Text(showingVideo ? "Stop Video" : "Play Video")
+                        }
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(showingVideo ? Color.red.opacity(0.1) : Color.blue.opacity(0.1))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(showingVideo ? Color.red.opacity(0.3) : Color.blue.opacity(0.3), lineWidth: 1)
+                        )
+                    }
+                }
                 
                 Button(action: showResearchAction) {
                     HStack(spacing: 4) {
@@ -692,6 +917,7 @@ struct MethodCard: View {
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(12)
+        .animation(.spring(response: 0.6, dampingFraction: 0.7), value: showingVideo)
     }
 }
 
