@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */; };
+		1209523C2E0D872600837CD4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209523B2E0D872600837CD4 /* Models.swift */; };
 		12AE963E2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 12AE963D2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper */; };
-		12C33F472E00A6FF00BA6067 /* RecoverEdgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */; };
+		12C33F472E00A6FF00BA6067 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* Run.swift */; };
 		12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F482E00A6FF00BA6067 /* ContentView.swift */; };
 		12C33F4B2E00A70200BA6067 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4A2E00A70200BA6067 /* Assets.xcassets */; };
 		12C33F4F2E00A70200BA6067 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */; };
-		12C33F592E00A70300BA6067 /* RecoverEdgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F582E00A70300BA6067 /* RecoverEdgeTests.swift */; };
-		12C33F632E00A70300BA6067 /* RecoverEdgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F622E00A70300BA6067 /* RecoverEdgeUITests.swift */; };
-		12C33F652E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F642E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,17 +34,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VimeoVideoPlayer.swift; sourceTree = "<group>"; };
+		1209523B2E0D872600837CD4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		12C33F432E00A6FF00BA6067 /* RecoverEdge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecoverEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeApp.swift; sourceTree = "<group>"; };
+		12C33F462E00A6FF00BA6067 /* Run.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
 		12C33F482E00A6FF00BA6067 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		12C33F4A2E00A70200BA6067 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RecoverEdge.entitlements; sourceTree = "<group>"; };
 		12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		12C33F542E00A70200BA6067 /* RecoverEdgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecoverEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		12C33F582E00A70300BA6067 /* RecoverEdgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeTests.swift; sourceTree = "<group>"; };
 		12C33F5E2E00A70300BA6067 /* RecoverEdgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecoverEdgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		12C33F622E00A70300BA6067 /* RecoverEdgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeUITests.swift; sourceTree = "<group>"; };
-		12C33F642E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEdgeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,12 +72,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		120952382E0D842900837CD4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				12C33F482E00A6FF00BA6067 /* ContentView.swift */,
+				120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1209523D2E0D873000837CD4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1209523B2E0D872600837CD4 /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		12C33F3A2E00A6FF00BA6067 = {
 			isa = PBXGroup;
 			children = (
 				12C33F452E00A6FF00BA6067 /* RecoverEdge */,
-				12C33F572E00A70300BA6067 /* RecoverEdgeTests */,
-				12C33F612E00A70300BA6067 /* RecoverEdgeUITests */,
 				12C33F442E00A6FF00BA6067 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,8 +110,9 @@
 		12C33F452E00A6FF00BA6067 /* RecoverEdge */ = {
 			isa = PBXGroup;
 			children = (
-				12C33F462E00A6FF00BA6067 /* RecoverEdgeApp.swift */,
-				12C33F482E00A6FF00BA6067 /* ContentView.swift */,
+				12C33F462E00A6FF00BA6067 /* Run.swift */,
+				1209523D2E0D873000837CD4 /* Models */,
+				120952382E0D842900837CD4 /* Views */,
 				12C33F4A2E00A70200BA6067 /* Assets.xcassets */,
 				12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */,
 				12C33F4D2E00A70200BA6067 /* Preview Content */,
@@ -112,23 +126,6 @@
 				12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		12C33F572E00A70300BA6067 /* RecoverEdgeTests */ = {
-			isa = PBXGroup;
-			children = (
-				12C33F582E00A70300BA6067 /* RecoverEdgeTests.swift */,
-			);
-			path = RecoverEdgeTests;
-			sourceTree = "<group>";
-		};
-		12C33F612E00A70300BA6067 /* RecoverEdgeUITests */ = {
-			isa = PBXGroup;
-			children = (
-				12C33F622E00A70300BA6067 /* RecoverEdgeUITests.swift */,
-				12C33F642E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift */,
-			);
-			path = RecoverEdgeUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,7 +265,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
-				12C33F472E00A6FF00BA6067 /* RecoverEdgeApp.swift in Sources */,
+				120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */,
+				12C33F472E00A6FF00BA6067 /* Run.swift in Sources */,
+				1209523C2E0D872600837CD4 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +275,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12C33F592E00A70300BA6067 /* RecoverEdgeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,8 +282,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12C33F652E00A70300BA6067 /* RecoverEdgeUITestsLaunchTests.swift in Sources */,
-				12C33F632E00A70300BA6067 /* RecoverEdgeUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
