@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		120669352E0D8D4A004EBB97 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120669342E0D8D4A004EBB97 /* Buttons.swift */; };
 		120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */; };
 		1209523C2E0D872600837CD4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209523B2E0D872600837CD4 /* Models.swift */; };
 		12AE963E2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 12AE963D2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		120669342E0D8D4A004EBB97 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VimeoVideoPlayer.swift; sourceTree = "<group>"; };
 		1209523B2E0D872600837CD4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		12C33F432E00A6FF00BA6067 /* RecoverEdge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecoverEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		120669332E0D8D23004EBB97 /* UI Components */ = {
+			isa = PBXGroup;
+			children = (
+				120669342E0D8D4A004EBB97 /* Buttons.swift */,
+			);
+			path = "UI Components";
+			sourceTree = "<group>";
+		};
 		120952382E0D842900837CD4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +123,7 @@
 				12C33F462E00A6FF00BA6067 /* Run.swift */,
 				1209523D2E0D873000837CD4 /* Models */,
 				120952382E0D842900837CD4 /* Views */,
+				120669332E0D8D23004EBB97 /* UI Components */,
 				12C33F4A2E00A70200BA6067 /* Assets.xcassets */,
 				12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */,
 				12C33F4D2E00A70200BA6067 /* Preview Content */,
@@ -264,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				120669352E0D8D4A004EBB97 /* Buttons.swift in Sources */,
 				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
 				120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */,
 				12C33F472E00A6FF00BA6067 /* Run.swift in Sources */,

@@ -5,6 +5,8 @@
 //  Created by Victor Ruan on 6/26/25.
 //
 
+// This file contains data models to be used (structs, classes)
+
 import SwiftUI
 import WebKit
 
