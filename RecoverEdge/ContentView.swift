@@ -66,16 +66,6 @@ struct VimeoPlayerView: UIViewRepresentable {
     }
 }
 
-//// MARK: - Main App
-//@main
-//struct RecoverEdgeApp: App {
-//    var body: some Scene {
-//        WindowGroup {
-//            ContentView()
-//        }
-//    }
-//}
-
 // MARK: - Data Models
 struct Equipment: Identifiable, Hashable {
     let id = UUID()
@@ -706,60 +696,6 @@ struct GeneratedPlanView: View {
     }
 }
 
-//struct MethodCard: View {
-//    let method: RecoveryMethod
-//    let stepNumber: Int
-//    let showResearchAction: () -> Void
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 12) {
-//            HStack {
-//                Text("Step \(stepNumber)")
-//                    .font(.caption)
-//                    .padding(.horizontal, 8)
-//                    .padding(.vertical, 4)
-//                    .background(Color.brandTeal.opacity(0.2))
-//                    .cornerRadius(4)
-//
-//                Spacer()
-//
-//                Text("\(method.duration) min")
-//                    .font(.caption)
-//                    .foregroundColor(.secondary)
-//            }
-//
-//            Text(method.name)
-//                .font(.headline)
-//
-//            Text(method.description)
-//                .font(.body)
-//                .foregroundColor(.secondary)
-//
-//            HStack {
-//                if !method.equipment.isEmpty {
-//                    Label("Equipment: \(method.equipment.joined(separator: ", "))", systemImage: "wrench.adjustable")
-//                        .font(.caption)
-//                        .foregroundColor(.secondary)
-//                }
-//
-//                Spacer()
-//
-//                Button(action: showResearchAction) {
-//                    HStack(spacing: 4) {
-//                        Image(systemName: "questionmark.circle")
-//                        Text("Why?")
-//                    }
-//                    .font(.caption)
-//                    .foregroundColor(.black)
-//                }
-//            }
-//        }
-//        .padding()
-//        .background(Color(.systemGray6))
-//        .cornerRadius(12)
-//    }
-//}
-
 struct MethodCard: View {
     let method: RecoveryMethod
     let stepNumber: Int
@@ -1057,7 +993,3 @@ struct MethodListRow: View {
         .padding(.vertical, 4)
     }
 }
-
-//#Preview {
-//    ContentView()
-//}
