@@ -11,11 +11,10 @@
 		120669372E0D9A4A004EBB97 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120669362E0D9A4A004EBB97 /* ChatView.swift */; };
 		120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */; };
 		1209523C2E0D872600837CD4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209523B2E0D872600837CD4 /* Models.swift */; };
-		12AE963E2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 12AE963D2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper */; };
-		12C33F472E00A6FF00BA6067 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* Run.swift */; };
 		12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F482E00A6FF00BA6067 /* ContentView.swift */; };
 		12C33F4B2E00A70200BA6067 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4A2E00A70200BA6067 /* Assets.xcassets */; };
 		12C33F4F2E00A70200BA6067 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */; };
+		12E0A0C52E0DCA6900D284A0 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* Run.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +54,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12AE963E2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,7 +157,6 @@
 			);
 			name = RecoverEdge;
 			packageProductDependencies = (
-				12AE963D2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper */,
 			);
 			productName = RecoverEdge;
 			productReference = 12C33F432E00A6FF00BA6067 /* RecoverEdge.app */;
@@ -234,7 +231,6 @@
 			);
 			mainGroup = 12C33F3A2E00A6FF00BA6067;
 			packageReferences = (
-				12AE963C2E0C6E5A00DEC8AD /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 			);
 			productRefGroup = 12C33F442E00A6FF00BA6067 /* Products */;
 			projectDirPath = "";
@@ -281,8 +277,8 @@
 				120669352E0D8D4A004EBB97 /* Buttons.swift in Sources */,
 				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
 				120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */,
-				12C33F472E00A6FF00BA6067 /* Run.swift in Sources */,
 				120669372E0D9A4A004EBB97 /* ChatView.swift in Sources */,
+				12E0A0C52E0DCA6900D284A0 /* Run.swift in Sources */,
 				1209523C2E0D872600837CD4 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,25 +628,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		12AE963C2E0C6E5A00DEC8AD /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		12AE963D2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 12AE963C2E0C6E5A00DEC8AD /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;
-			productName = YouTubeiOSPlayerHelper;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 12C33F3B2E00A6FF00BA6067 /* Project object */;
 }

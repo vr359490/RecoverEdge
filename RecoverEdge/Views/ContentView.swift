@@ -37,17 +37,15 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Plan Generator View
+//MARK: Plan Generator View
 struct PlanGeneratorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @State private var selectedTime: Int = 0
     @State private var selectedLocation: Location = .none
     @State private var selectedEquipmentNames: Set<String> = []
-    //@State private var selectedEquipment: Set<Equipment> = []
     @State private var customTime: String = ""
     @State private var showingCustomTime = false
-    @State private var generatedPlan: [RecoveryMethod] = []
-    @State private var showingPlan = false
+    @State private var planToPresent: [RecoveryMethod]? = nil // Use optional to control sheet
     
     let timeOptions = [15, 25, 45]
     
@@ -57,13 +55,10 @@ struct PlanGeneratorView: View {
                 VStack(spacing: 20) {
                     // Time Selection
                     VStack(alignment: .leading, spacing: 12) {
-//                        Text(" Available Time")
-//                            .font(.headline)
-                        
                         VStack(spacing: 12) {
                             HStack(spacing: 12) {
                                 TimeButton(
-                                    time: timeOptions[0], // "15 min"
+                                    time: timeOptions[0],
                                     isSelected: selectedTime == timeOptions[0] && !showingCustomTime,
                                     action: {
                                         selectedTime = timeOptions[0]
@@ -72,7 +67,7 @@ struct PlanGeneratorView: View {
                                 )
                                 
                                 TimeButton(
-                                    time: timeOptions[1], // "25 min"
+                                    time: timeOptions[1],
                                     isSelected: selectedTime == timeOptions[1] && !showingCustomTime,
                                     action: {
                                         selectedTime = timeOptions[1]
@@ -83,7 +78,7 @@ struct PlanGeneratorView: View {
                             
                             HStack(spacing: 12) {
                                 TimeButton(
-                                    time: timeOptions[2], // "45 min"
+                                    time: timeOptions[2],
                                     isSelected: selectedTime == timeOptions[2] && !showingCustomTime,
                                     action: {
                                         selectedTime = timeOptions[2]
@@ -96,36 +91,33 @@ struct PlanGeneratorView: View {
                                         Image(systemName:"timer")
                                             .font(.system(size: 35))
                                         Text("CUSTOM")
-                                        .   font(.system(size: 14, weight: .bold))
-                                        
+                                            .font(.system(size: 14, weight: .bold))
                                     }
-                                        .padding(.horizontal, 30)
-                                        .padding(.vertical, 30)
-                                        
-                                        .background(
-                                            Group {
-                                                if showingCustomTime {
-                                                    LinearGradient(
-                                                        colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
-                                                        startPoint: .bottom,
-                                                        endPoint: .top
-                                                    )
-                                                    
-                                                } else {
-                                                    LinearGradient(
-                                                        colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
-                                                        startPoint: .bottom,
-                                                        endPoint: .top
-                                                    )
-                                                }
+                                    .padding(.horizontal, 30)
+                                    .padding(.vertical, 30)
+                                    .background(
+                                        Group {
+                                            if showingCustomTime {
+                                                LinearGradient(
+                                                    colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
+                                                    startPoint: .bottom,
+                                                    endPoint: .top
+                                                )
+                                            } else {
+                                                LinearGradient(
+                                                    colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                                                    startPoint: .bottom,
+                                                    endPoint: .top
+                                                )
                                             }
-                                        )
-                                        .foregroundColor(showingCustomTime ? .white : .primary)
-                                        .cornerRadius(20)
+                                        }
+                                    )
+                                    .foregroundColor(showingCustomTime ? .white : .primary)
+                                    .cornerRadius(20)
                                 }
                             }
                         }
-                        .frame(maxWidth: .infinity) // Force center alignment
+                        .frame(maxWidth: .infinity)
                         .padding(.horizontal)
                         
                         if showingCustomTime {
@@ -149,7 +141,6 @@ struct PlanGeneratorView: View {
                                         isSelected: selectedLocation == location,
                                         action: {
                                             selectedLocation = location
-                                            //selectedEquipment = []
                                             selectedEquipmentNames.removeAll()
                                         }
                                     )
@@ -172,10 +163,8 @@ struct PlanGeneratorView: View {
                                     action: {
                                         if selectedEquipmentNames.contains(equipment.name) {
                                             selectedEquipmentNames.remove(equipment.name)
-                                            //selectedEquipment.remove(equipment)
                                         } else {
                                             selectedEquipmentNames.insert(equipment.name)
-                                            //selectedEquipment.insert(equipment)
                                         }
                                     }
                                 )
@@ -200,8 +189,11 @@ struct PlanGeneratorView: View {
             }
             .navigationTitle("Victor's RecoverEdge")
         }
-        .sheet(isPresented: $showingPlan) {
-            GeneratedPlanView(methods: generatedPlan, totalTime: getTotalTime())
+        .sheet(item: Binding<PlanWrapper?>(
+            get: { planToPresent.map { PlanWrapper(methods: $0, totalTime: getTotalTime()) } },
+            set: { _ in planToPresent = nil }
+        )) { planWrapper in
+            GeneratedPlanView(methods: planWrapper.methods, totalTime: planWrapper.totalTime)
                 .environmentObject(dataStore)
         }
     }
@@ -214,11 +206,23 @@ struct PlanGeneratorView: View {
     }
     
     private func generatePlan() {
+        
         let targetTime = getTotalTime()
-        //let availableEquipmentNames = selectedEquipment.map { $0.name } + [""] // Include methods that need no equipment
-        let availableEquipmentNames = Array(selectedEquipmentNames) + [""]
+        
+        // Create list of available equipment names
+        var availableEquipmentNames = Array(selectedEquipmentNames)
+        let locationEquipment = selectedLocation.availableEquipment.map { $0.name }
+        availableEquipmentNames.append(contentsOf: locationEquipment)
+        availableEquipmentNames = Array(Set(availableEquipmentNames))
+        
+        // Filter methods based on available equipment
         let suitableMethods = dataStore.recoveryMethods.filter { method in
-            method.equipment.isEmpty || method.equipment.allSatisfy { availableEquipmentNames.contains($0) }
+            if method.equipment.isEmpty {
+                return true
+            }
+            return method.equipment.allSatisfy { requiredEquipment in
+                availableEquipmentNames.contains(requiredEquipment)
+            }
         }
         
         var plan: [RecoveryMethod] = []
@@ -240,19 +244,33 @@ struct PlanGeneratorView: View {
                 remainingTime -= method.duration
             }
             
-            if remainingTime <= 2 { break } // Stop if very little time left
+            if remainingTime <= 2 { break }
         }
         
-        // Add fallback if no equipment selected
-        if plan.isEmpty || (selectedEquipmentNames.isEmpty && selectedLocation == .hotel) {
+        // Fallback logic
+        if plan.isEmpty && selectedLocation == .hotel {
             if let legsUpWall = dataStore.recoveryMethods.first(where: { $0.name == "Legs Up The Wall" }) {
                 plan.append(legsUpWall)
             }
         }
         
-        generatedPlan = plan
-        showingPlan = true
+        if plan.isEmpty {
+            if let breathingMethod = dataStore.recoveryMethods.first(where: { $0.category == "Breathing" }) {
+                plan.append(breathingMethod)
+            }
+        }
+        
+        
+        // Set the plan to present - this will trigger the sheet
+        planToPresent = plan
     }
+}
+
+// Helper wrapper for sheet presentation
+struct PlanWrapper: Identifiable {
+    let id = UUID()
+    let methods: [RecoveryMethod]
+    let totalTime: Int
 }
 
 // MARK: - Generated Plan View
@@ -267,25 +285,66 @@ struct GeneratedPlanView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 16) {
+                    // Debug information at the top
+//                    VStack(spacing: 8) {
+//                        Text("DEBUG INFO")
+//                            .font(.caption)
+//                            .foregroundColor(.red)
+//                        Text("Methods count: \(methods.count)")
+//                            .font(.caption)
+//                        Text("Total time passed: \(totalTime)")
+//                            .font(.caption)
+//                        Text("Actual duration: \(methods.reduce(0) { $0 + $1.duration })")
+//                            .font(.caption)
+//
+//                        if methods.isEmpty {
+//                            Text("⚠️ NO METHODS IN ARRAY")
+//                                .font(.caption)
+//                                .foregroundColor(.red)
+//                        }
+//                    }
+//                    .padding()
+//                    .background(Color.yellow.opacity(0.3))
+//                    .cornerRadius(8)
+                    
                     // Plan Summary
                     VStack(spacing: 8) {
                         Text("Your Recovery Plan")
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        Text("\(methods.count) methods • \(methods.reduce(0) { $0 + $1.duration }) minutes")
+                        let actualDuration = methods.reduce(0) { $0 + $1.duration }
+                        Text("\(methods.count) methods • \(actualDuration) minutes")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
                     .padding()
                     
                     // Methods List
-                    ForEach(Array(methods.enumerated()), id: \.element.id) { index, method in
-                        MethodCard(
-                            method: method,
-                            stepNumber: index + 1,
-                            showResearchAction: { showingResearch = method }
-                        )
+                    if methods.isEmpty {
+                        VStack(spacing: 16) {
+                            Image(systemName: "exclamationmark.triangle")
+                                .font(.system(size: 50))
+                                .foregroundColor(.orange)
+                            
+                            Text("No Methods Generated")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            
+                            Text("Try adjusting your time, location, or equipment selections and generate again.")
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal)
+                        }
+                        .padding(.top, 50)
+                    } else {
+                        ForEach(Array(methods.enumerated()), id: \.element.id) { index, method in
+                            MethodCard(
+                                method: method,
+                                stepNumber: index + 1,
+                                showResearchAction: { showingResearch = method }
+                            )
+                        }
                     }
                     
                     Spacer(minLength: 100)
@@ -301,6 +360,12 @@ struct GeneratedPlanView: View {
                 }
             }
         }
+//        .onAppear {
+//            print("GeneratedPlanView appeared with \(methods.count) methods")
+//            for (index, method) in methods.enumerated() {
+//                print("Method \(index + 1): \(method.name) - \(method.duration) min")
+//            }
+//        }
         .sheet(item: $showingResearch) { method in
             ResearchView(method: method)
         }
@@ -381,7 +446,7 @@ struct MethodCard: View {
                                 .opacity(isVideoLoading ? 0 : 1)
                                 .onAppear {
                                     // Trigger autoplay after video appears
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         shouldAutoplay = true
                                         withAnimation(.easeInOut(duration: 0.5)) {
                                             isVideoLoading = false
