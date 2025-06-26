@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		120669352E0D8D4A004EBB97 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120669342E0D8D4A004EBB97 /* Buttons.swift */; };
+		120669372E0D9A4A004EBB97 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120669362E0D9A4A004EBB97 /* ChatView.swift */; };
 		120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */; };
 		1209523C2E0D872600837CD4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209523B2E0D872600837CD4 /* Models.swift */; };
 		12AE963E2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 12AE963D2E0C6E5A00DEC8AD /* YouTubeiOSPlayerHelper */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		120669342E0D8D4A004EBB97 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		120669362E0D9A4A004EBB97 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VimeoVideoPlayer.swift; sourceTree = "<group>"; };
 		1209523B2E0D872600837CD4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		12C33F432E00A6FF00BA6067 /* RecoverEdge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecoverEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				12C33F482E00A6FF00BA6067 /* ContentView.swift */,
+				120669362E0D9A4A004EBB97 /* ChatView.swift */,
 				120952342E0D83B100837CD4 /* VimeoVideoPlayer.swift */,
 			);
 			path = Views;
@@ -279,6 +282,7 @@
 				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
 				120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */,
 				12C33F472E00A6FF00BA6067 /* Run.swift in Sources */,
+				120669372E0D9A4A004EBB97 /* ChatView.swift in Sources */,
 				1209523C2E0D872600837CD4 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

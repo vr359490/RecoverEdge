@@ -14,7 +14,12 @@ struct ContentView: View {
                 }
                 .environmentObject(dataStore)
             
-            Text("Test Tab")
+//            Text("Test Tab")
+//                .tabItem {
+//                    Image(systemName: "bubble.left")
+//                    Text("Chat")
+//                }
+            ChatView()
                 .tabItem {
                     Image(systemName: "bubble.left")
                     Text("Chat")
@@ -38,7 +43,7 @@ struct PlanGeneratorView: View {
     @State private var selectedTime: Int = 0
     @State private var selectedLocation: Location = .none
     @State private var selectedEquipmentNames: Set<String> = []
-    @State private var selectedEquipment: Set<Equipment> = []
+    //@State private var selectedEquipment: Set<Equipment> = []
     @State private var customTime: String = ""
     @State private var showingCustomTime = false
     @State private var generatedPlan: [RecoveryMethod] = []
@@ -144,7 +149,7 @@ struct PlanGeneratorView: View {
                                         isSelected: selectedLocation == location,
                                         action: {
                                             selectedLocation = location
-                                            selectedEquipment = []
+                                            //selectedEquipment = []
                                             selectedEquipmentNames.removeAll()
                                         }
                                     )
@@ -167,10 +172,10 @@ struct PlanGeneratorView: View {
                                     action: {
                                         if selectedEquipmentNames.contains(equipment.name) {
                                             selectedEquipmentNames.remove(equipment.name)
-                                            selectedEquipment.remove(equipment)
+                                            //selectedEquipment.remove(equipment)
                                         } else {
                                             selectedEquipmentNames.insert(equipment.name)
-                                            selectedEquipment.insert(equipment)
+                                            //selectedEquipment.insert(equipment)
                                         }
                                     }
                                 )
@@ -193,7 +198,7 @@ struct PlanGeneratorView: View {
                     .padding(.top, 20)
                 }
             }
-            .navigationTitle("User Test's RecoverEdge")
+            .navigationTitle("Victor's RecoverEdge")
         }
         .sheet(isPresented: $showingPlan) {
             GeneratedPlanView(methods: generatedPlan, totalTime: getTotalTime())
@@ -210,8 +215,8 @@ struct PlanGeneratorView: View {
     
     private func generatePlan() {
         let targetTime = getTotalTime()
-        let availableEquipmentNames = selectedEquipment.map { $0.name } + [""] // Include methods that need no equipment
-        
+        //let availableEquipmentNames = selectedEquipment.map { $0.name } + [""] // Include methods that need no equipment
+        let availableEquipmentNames = Array(selectedEquipmentNames) + [""]
         let suitableMethods = dataStore.recoveryMethods.filter { method in
             method.equipment.isEmpty || method.equipment.allSatisfy { availableEquipmentNames.contains($0) }
         }
@@ -239,7 +244,7 @@ struct PlanGeneratorView: View {
         }
         
         // Add fallback if no equipment selected
-        if plan.isEmpty || (selectedEquipment.isEmpty && selectedLocation == .hotel) {
+        if plan.isEmpty || (selectedEquipmentNames.isEmpty && selectedLocation == .hotel) {
             if let legsUpWall = dataStore.recoveryMethods.first(where: { $0.name == "Legs Up The Wall" }) {
                 plan.append(legsUpWall)
             }
