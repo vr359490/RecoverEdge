@@ -25,9 +25,7 @@ struct OpenAIResponse: Codable {
 class OpenAIService {
     static let shared = OpenAIService()
     
-    // TODO: Replace with your actual API key - NEVER commit this to source control!
-    // Consider using environment variables or secure storage
-    private let apiKey = "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"
+    private let apiKey = Secrets.openAIAPIKey
     private let apiURL = "https://api.openai.com/v1/chat/completions"
     
     private init() {}
