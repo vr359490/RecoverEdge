@@ -46,6 +46,7 @@ struct TimeButton: View {
     }
 }
 
+// MARK: - Updated LocationButton
 struct LocationButton: View {
     let location: Location
     let isSelected: Bool
@@ -88,7 +89,7 @@ struct LocationButton: View {
         case .gym: return "dumbbell"
         case .hotel: return "bed.double"
         case .home: return "house"
-        case .outdoors: return "tree"
+        case .court: return "sportscourt"  // Changed from "tree" to volleyball/sports court icon
         case .none: return ""
         }
     }

@@ -29,11 +29,12 @@ struct Equipment: Identifiable, Hashable {
     }
 }
 
+// MARK: - Updated Location Enum 
 enum Location: String, CaseIterable {
     case gym = "Gym"
     case hotel = "Hotel"
     case home = "Home"
-    case outdoors = "Outdoors"
+    case court = "Court"  // Changed from outdoors = "Outdoors"
     case none = ""
 
     var availableEquipment: [Equipment] {
@@ -69,12 +70,13 @@ enum Location: String, CaseIterable {
                 Equipment(name: "Stairs", category: "Structure"),
                 Equipment(name: "Ice Pack", category: "Temperature")
             ]
-        case .outdoors:
+        case .court:  // Changed from .outdoors
             return [
                 Equipment(name: "Ground", category: "Basic"),
-                Equipment(name: "Tree", category: "Nature"),
                 Equipment(name: "Bench", category: "Furniture"),
-                Equipment(name: "Water Bottle", category: "Basic")
+                Equipment(name: "Water Bottle", category: "Basic"),
+                Equipment(name: "Court Wall", category: "Structure"),  // More specific than just "Tree"
+                Equipment(name: "Towel", category: "Basic")  // Added towel as courts often have them
             ]
         }
     }
@@ -100,6 +102,7 @@ struct RecoveryPlan: Identifiable {
     let requiredEquipment: [String]
     let suitableLocations: [Location]
 }
+
 
 // MARK: - Data Store
 class RecoveryDataStore: ObservableObject {
@@ -186,11 +189,12 @@ class RecoveryDataStore: ObservableObject {
         )
     ]
 
+    // Update the curatedPlans array in RecoveryDataStore:
     let curatedPlans: [RecoveryPlan] = [
         RecoveryPlan(
             name: "Quick Hotel Recovery",
             totalDuration: 15,
-            methods: [], // Will be populated dynamically
+            methods: [],
             requiredEquipment: ["Wall", "Towel"],
             suitableLocations: [.hotel]
         ),
@@ -207,6 +211,14 @@ class RecoveryDataStore: ObservableObject {
             methods: [],
             requiredEquipment: ["Foam Roller", "Massage Gun", "Ice Bath"],
             suitableLocations: [.gym]
+        ),
+        // Optional: Add a court-specific plan
+        RecoveryPlan(
+            name: "Court Side Recovery",
+            totalDuration: 12,
+            methods: [],
+            requiredEquipment: ["Water Bottle", "Towel"],
+            suitableLocations: [.court]
         )
     ]
 }

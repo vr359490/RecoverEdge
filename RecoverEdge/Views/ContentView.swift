@@ -14,11 +14,6 @@ struct ContentView: View {
                 }
                 .environmentObject(dataStore)
             
-//            Text("Test Tab")
-//                .tabItem {
-//                    Image(systemName: "bubble.left")
-//                    Text("Chat")
-//                }
             ChatView()
                 .tabItem {
                     Image(systemName: "bubble.left")
@@ -37,101 +32,213 @@ struct ContentView: View {
     }
 }
 
-//MARK: Plan Generator View
+//MARK: Plan Generator View - Updated Flow
 struct PlanGeneratorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @State private var selectedTime: Int = 0
-    @State private var selectedLocation: Location = .none
-    @State private var selectedEquipmentNames: Set<String> = []
     @State private var customTime: String = ""
     @State private var showingCustomTime = false
-    @State private var planToPresent: [RecoveryMethod]? = nil // Use optional to control sheet
+    @State private var showingLocationSelector = false
+    @State private var planToPresent: [RecoveryMethod]? = nil
     
     let timeOptions = [15, 25, 45]
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 30) {
+                    // Header
+                    VStack(spacing: 8) {
+                        Text("How much time do you have?")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Choose your recovery session length")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 20)
+                    
                     // Time Selection
-                    VStack(alignment: .leading, spacing: 12) {
-                        VStack(spacing: 12) {
-                            HStack(spacing: 12) {
-                                TimeButton(
-                                    time: timeOptions[0],
-                                    isSelected: selectedTime == timeOptions[0] && !showingCustomTime,
-                                    action: {
-                                        selectedTime = timeOptions[0]
-                                        showingCustomTime = false
-                                    }
-                                )
-                                
-                                TimeButton(
-                                    time: timeOptions[1],
-                                    isSelected: selectedTime == timeOptions[1] && !showingCustomTime,
-                                    action: {
-                                        selectedTime = timeOptions[1]
-                                        showingCustomTime = false
-                                    }
-                                )
-                            }
-                            
-                            HStack(spacing: 12) {
-                                TimeButton(
-                                    time: timeOptions[2],
-                                    isSelected: selectedTime == timeOptions[2] && !showingCustomTime,
-                                    action: {
-                                        selectedTime = timeOptions[2]
-                                        showingCustomTime = false
-                                    }
-                                )
-                                
-                                Button(action: { showingCustomTime.toggle() }) {
-                                    VStack{
-                                        Image(systemName:"timer")
-                                            .font(.system(size: 35))
-                                        Text("CUSTOM")
-                                            .font(.system(size: 14, weight: .bold))
-                                    }
-                                    .padding(.horizontal, 30)
-                                    .padding(.vertical, 30)
-                                    .background(
-                                        Group {
-                                            if showingCustomTime {
-                                                LinearGradient(
-                                                    colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
-                                                    startPoint: .bottom,
-                                                    endPoint: .top
-                                                )
-                                            } else {
-                                                LinearGradient(
-                                                    colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
-                                                    startPoint: .bottom,
-                                                    endPoint: .top
-                                                )
-                                            }
-                                        }
-                                    )
-                                    .foregroundColor(showingCustomTime ? .white : .primary)
-                                    .cornerRadius(20)
+                    VStack(spacing: 12) {
+                        HStack(spacing: 12) {
+                            TimeButton(
+                                time: timeOptions[0],
+                                isSelected: selectedTime == timeOptions[0] && !showingCustomTime,
+                                action: {
+                                    selectedTime = timeOptions[0]
+                                    showingCustomTime = false
                                 }
+                            )
+                            
+                            TimeButton(
+                                time: timeOptions[1],
+                                isSelected: selectedTime == timeOptions[1] && !showingCustomTime,
+                                action: {
+                                    selectedTime = timeOptions[1]
+                                    showingCustomTime = false
+                                }
+                            )
+                        }
+                        
+                        HStack(spacing: 12) {
+                            TimeButton(
+                                time: timeOptions[2],
+                                isSelected: selectedTime == timeOptions[2] && !showingCustomTime,
+                                action: {
+                                    selectedTime = timeOptions[2]
+                                    showingCustomTime = false
+                                }
+                            )
+                            
+                            Button(action: { showingCustomTime.toggle() }) {
+                                VStack{
+                                    Image(systemName:"timer")
+                                        .font(.system(size: 35))
+                                    Text("CUSTOM")
+                                        .font(.system(size: 14, weight: .bold))
+                                }
+                                .padding(.horizontal, 30)
+                                .padding(.vertical, 30)
+                                .background(
+                                    Group {
+                                        if showingCustomTime {
+                                            LinearGradient(
+                                                colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
+                                                startPoint: .bottom,
+                                                endPoint: .top
+                                            )
+                                        } else {
+                                            LinearGradient(
+                                                colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
+                                                startPoint: .bottom,
+                                                endPoint: .top
+                                            )
+                                        }
+                                    }
+                                )
+                                .foregroundColor(showingCustomTime ? .white : .primary)
+                                .cornerRadius(20)
                             }
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal)
                         
                         if showingCustomTime {
-                            TextField("Minutes", text: $customTime)
+                            TextField("Enter minutes", text: $customTime)
                                 .keyboardType(.numberPad)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding(.horizontal)
+                                .padding(.horizontal, 40)
                         }
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
+                    
+                    Spacer()
+                    
+                    // Generate Button
+                    Button(action: {
+                        showingLocationSelector = true
+                    }) {
+                        Text("Generate Recovery Plan")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                Group {
+                                    if canGenerate {
+                                        LinearGradient(
+                                            colors: [Color.brandTeal, Color.brandTealDark],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    } else {
+                                        Color.gray
+                                    }
+                                }
+                            )
+                            .cornerRadius(12)
+                    }
+                    .disabled(!canGenerate)
+                    .padding(.horizontal)
+                    .padding(.bottom, 30)
+                }
+            }
+            .navigationTitle("RecoverEdge")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .sheet(isPresented: $showingLocationSelector) {
+            LocationEquipmentSelectorView(
+                selectedTime: getTotalTime(),
+                onPlanGenerated: { plan in
+                    planToPresent = plan
+                    showingLocationSelector = false
+                }
+            )
+            .environmentObject(dataStore)
+        }
+        .sheet(item: Binding<PlanWrapper?>(
+            get: { planToPresent.map { PlanWrapper(methods: $0, totalTime: getTotalTime()) } },
+            set: { _ in planToPresent = nil }
+        )) { planWrapper in
+            GeneratedPlanView(methods: planWrapper.methods, totalTime: planWrapper.totalTime)
+                .environmentObject(dataStore)
+        }
+    }
+    
+    private var canGenerate: Bool {
+        if showingCustomTime {
+            return !customTime.isEmpty && Int(customTime) != nil && Int(customTime)! > 0
+        }
+        return selectedTime > 0
+    }
+    
+    private func getTotalTime() -> Int {
+        if showingCustomTime, let custom = Int(customTime) {
+            return custom
+        }
+        return selectedTime
+    }
+}
+
+// MARK: - New Location & Equipment Selector Sheet
+struct LocationEquipmentSelectorView: View {
+    @EnvironmentObject var dataStore: RecoveryDataStore
+    @Environment(\.presentationMode) var presentationMode
+    
+    let selectedTime: Int
+    let onPlanGenerated: ([RecoveryMethod]) -> Void
+    
+    @State private var selectedLocation: Location = .none
+    @State private var selectedEquipmentNames: Set<String> = []
+    @State private var isGenerating = false
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header with time context
+                    VStack(spacing: 8) {
+                        Text("Where will you recover?")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                        
+                        Text("Your \(selectedTime)-minute session")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 4)
+                            .background(Color.brandTeal.opacity(0.1))
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 10)
                     
                     // Location Selection
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 16) {
                         Text("Location")
                             .font(.headline)
+                            .padding(.horizontal)
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
@@ -150,72 +257,113 @@ struct PlanGeneratorView: View {
                         }
                     }
                     
-                    // Equipment Selection
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Available Equipment")
-                            .font(.headline)
-                        
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                            ForEach(selectedLocation.availableEquipment, id: \.id) { equipment in
-                                EquipmentButton(
-                                    equipment: equipment,
-                                    isSelected: selectedEquipmentNames.contains(equipment.name),
-                                    action: {
-                                        if selectedEquipmentNames.contains(equipment.name) {
-                                            selectedEquipmentNames.remove(equipment.name)
-                                        } else {
-                                            selectedEquipmentNames.insert(equipment.name)
-                                        }
-                                    }
-                                )
+                    // Equipment Selection (only show if location is selected)
+                    if selectedLocation != .none {
+                        VStack(alignment: .leading, spacing: 16) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Available Equipment")
+                                    .font(.headline)
+                                Text("Select what you have access to")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
                             }
+                            .padding(.horizontal)
+                            
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                                ForEach(selectedLocation.availableEquipment, id: \.id) { equipment in
+                                    EquipmentButton(
+                                        equipment: equipment,
+                                        isSelected: selectedEquipmentNames.contains(equipment.name),
+                                        action: {
+                                            if selectedEquipmentNames.contains(equipment.name) {
+                                                selectedEquipmentNames.remove(equipment.name)
+                                            } else {
+                                                selectedEquipmentNames.insert(equipment.name)
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
+//                        .transition(.opacity.combined(with: .scale(scale: 0.98)))
+//                        .animation(.easeInOut, value: selectedLocation)
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .top).combined(with: .opacity),
+                            removal: .move(edge: .top).combined(with: .opacity)
+                        ))
                     }
                     
-                    // Generate Button
-                    Button(action: generatePlan) {
-                        Text("Generate Recovery Plan")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(.black)
-                            .cornerRadius(12)
+                    Spacer()
+                    
+                    // Generate Final Plan Button
+                    Button(action: generateFinalPlan) {
+                        HStack {
+                            if isGenerating {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                                Text("Generating...")
+                            } else {
+                                Text("Create My Recovery Plan")
+                            }
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            Group {
+                                if canGenerateFinalPlan && !isGenerating {
+                                    LinearGradient(
+                                        colors: [Color.brandTeal, Color.brandTealDark],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                } else {
+                                    Color.gray
+                                }
+                            }
+                        )
+                        .cornerRadius(12)
                     }
+                    .disabled(!canGenerateFinalPlan || isGenerating)
                     .padding(.horizontal)
-                    .padding(.top, 20)
+                    .padding(.bottom, 20)
                 }
             }
-            .navigationTitle("Victor's RecoverEdge")
+            .navigationTitle("Step 2 of 2")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Back") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
         }
-        .sheet(item: Binding<PlanWrapper?>(
-            get: { planToPresent.map { PlanWrapper(methods: $0, totalTime: getTotalTime()) } },
-            set: { _ in planToPresent = nil }
-        )) { planWrapper in
-            GeneratedPlanView(methods: planWrapper.methods, totalTime: planWrapper.totalTime)
-                .environmentObject(dataStore)
+        .animation(.easeInOut, value: selectedLocation)
+    }
+    
+    private var canGenerateFinalPlan: Bool {
+        selectedLocation != .none
+    }
+    
+    private func generateFinalPlan() {
+        isGenerating = true
+        
+        // Add small delay for better UX
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let plan = generatePlan()
+            onPlanGenerated(plan)
+            isGenerating = false
         }
     }
     
-    private func getTotalTime() -> Int {
-        if showingCustomTime, let custom = Int(customTime) {
-            return custom
-        }
-        return selectedTime
-    }
-    
-    private func generatePlan() {
+    private func generatePlan() -> [RecoveryMethod] {
+        // Your existing plan generation logic
+        let availableEquipmentNames = Array(selectedEquipmentNames)
         
-        let targetTime = getTotalTime()
-        
-        // Create list of available equipment names
-        var availableEquipmentNames = Array(selectedEquipmentNames)
-        let locationEquipment = selectedLocation.availableEquipment.map { $0.name }
-//        availableEquipmentNames.append(contentsOf: locationEquipment)
-//        availableEquipmentNames = Array(Set(availableEquipmentNames))
-        
-        // Filter methods based on available equipment
         let suitableMethods = dataStore.recoveryMethods.filter { method in
             if method.equipment.isEmpty {
                 return true
@@ -226,7 +374,7 @@ struct PlanGeneratorView: View {
         }
         
         var plan: [RecoveryMethod] = []
-        var remainingTime = targetTime
+        var remainingTime = selectedTime
         var shuffledMethods = suitableMethods.shuffled()
         
         // Always include breathing if time allows
@@ -260,9 +408,7 @@ struct PlanGeneratorView: View {
             }
         }
         
-        
-        // Set the plan to present - this will trigger the sheet
-        planToPresent = plan
+        return plan
     }
 }
 
@@ -339,12 +485,6 @@ struct GeneratedPlanView: View {
                 }
             }
         }
-//        .onAppear {
-//            print("GeneratedPlanView appeared with \(methods.count) methods")
-//            for (index, method) in methods.enumerated() {
-//                print("Method \(index + 1): \(method.name) - \(method.duration) min")
-//            }
-//        }
         .sheet(item: $showingResearch) { method in
             ResearchView(method: method)
         }
