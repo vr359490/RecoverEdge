@@ -212,8 +212,8 @@ struct PlanGeneratorView: View {
         // Create list of available equipment names
         var availableEquipmentNames = Array(selectedEquipmentNames)
         let locationEquipment = selectedLocation.availableEquipment.map { $0.name }
-        availableEquipmentNames.append(contentsOf: locationEquipment)
-        availableEquipmentNames = Array(Set(availableEquipmentNames))
+//        availableEquipmentNames.append(contentsOf: locationEquipment)
+//        availableEquipmentNames = Array(Set(availableEquipmentNames))
         
         // Filter methods based on available equipment
         let suitableMethods = dataStore.recoveryMethods.filter { method in
@@ -285,27 +285,6 @@ struct GeneratedPlanView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 16) {
-                    // Debug information at the top
-//                    VStack(spacing: 8) {
-//                        Text("DEBUG INFO")
-//                            .font(.caption)
-//                            .foregroundColor(.red)
-//                        Text("Methods count: \(methods.count)")
-//                            .font(.caption)
-//                        Text("Total time passed: \(totalTime)")
-//                            .font(.caption)
-//                        Text("Actual duration: \(methods.reduce(0) { $0 + $1.duration })")
-//                            .font(.caption)
-//
-//                        if methods.isEmpty {
-//                            Text("⚠️ NO METHODS IN ARRAY")
-//                                .font(.caption)
-//                                .foregroundColor(.red)
-//                        }
-//                    }
-//                    .padding()
-//                    .background(Color.yellow.opacity(0.3))
-//                    .cornerRadius(8)
                     
                     // Plan Summary
                     VStack(spacing: 8) {

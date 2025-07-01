@@ -1,7 +1,7 @@
 """
 Advanced Python Server with RAG and LangChain for RecoverEdge
 This server uses RAG (Retrieval Augmented Generation) and LangChain
-Run with: python rag_server.py
+Run with: python RAG_server.py
 """
 
 import os
@@ -38,7 +38,7 @@ CORS(app)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# You'll need to set your OpenAI API key as an environment variable
+# Need to store OpenAI API key as environment variable
 # export OPENAI_API_KEY='your-api-key-here'
 
 class RecoveryRAGSystem:
