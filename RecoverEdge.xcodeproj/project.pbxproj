@@ -14,7 +14,7 @@
 		12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F482E00A6FF00BA6067 /* ContentView.swift */; };
 		12C33F4B2E00A70200BA6067 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4A2E00A70200BA6067 /* Assets.xcassets */; };
 		12C33F4F2E00A70200BA6067 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */; };
-		12CCEF7F2E0E2C4000A75F74 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CCEF7E2E0E2C4000A75F74 /* Secrets.swift */; };
+		12CBB31D2E1413EE0031FD22 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBB31C2E1413EE0031FD22 /* Secrets.swift */; };
 		12E0A0C52E0DCA6900D284A0 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* Run.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,8 +48,8 @@
 		12C33F4E2E00A70200BA6067 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		12C33F542E00A70200BA6067 /* RecoverEdgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecoverEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		12C33F5E2E00A70300BA6067 /* RecoverEdgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecoverEdgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		12CBB31C2E1413EE0031FD22 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		12CCEF7D2E0E27EA00A75F74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		12CCEF7E2E0E2C4000A75F74 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +132,7 @@
 				12C33F4A2E00A70200BA6067 /* Assets.xcassets */,
 				12C33F4C2E00A70200BA6067 /* RecoverEdge.entitlements */,
 				12C33F4D2E00A70200BA6067 /* Preview Content */,
-				12CCEF7E2E0E2C4000A75F74 /* Secrets.swift */,
+				12CBB31C2E1413EE0031FD22 /* Secrets.swift */,
 			);
 			path = RecoverEdge;
 			sourceTree = "<group>";
@@ -280,8 +280,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				120669352E0D8D4A004EBB97 /* Buttons.swift in Sources */,
+				12CBB31D2E1413EE0031FD22 /* Secrets.swift in Sources */,
 				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
-				12CCEF7F2E0E2C4000A75F74 /* Secrets.swift in Sources */,
 				120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */,
 				120669372E0D9A4A004EBB97 /* ChatView.swift in Sources */,
 				12E0A0C52E0DCA6900D284A0 /* Run.swift in Sources */,
