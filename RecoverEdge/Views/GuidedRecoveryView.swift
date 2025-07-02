@@ -169,10 +169,6 @@ struct ProgressHeaderView: View {
     let totalSteps: Int
     let onPause: () -> Void
     
-    var progress: Double {
-        Double(currentStep) / Double(totalSteps)
-    }
-    
     var body: some View {
         VStack(spacing: 12) {
             HStack {
@@ -198,26 +194,44 @@ struct ProgressHeaderView: View {
                     .opacity(0)
             }
             
-            // Progress Bar
+            // Segmented Progress Bar
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(height: 4)
+                    // Background segments
+                    HStack(spacing: 6) {
+                        ForEach(0..<totalSteps, id: \.self) { stepIndex in
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.2))
+                                .frame(height: 8)
+                                .cornerRadius(4)
+                        }
+                    }
                     
-                    Rectangle()
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.brandTeal, Color.brandTealDark],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                    // Gradient overlay for completed segments
+                    if currentStep > 0 {
+                        LinearGradient(
+                            colors: [Color.brandTeal, Color.brandTealDark],
+                            startPoint: .leading,
+                            endPoint: .trailing
                         )
-                        .frame(width: geometry.size.width * progress, height: 4)
-                        .animation(.easeInOut(duration: 0.3), value: progress)
+                        .mask(
+                            HStack(spacing: 6) {
+                                ForEach(0..<totalSteps, id: \.self) { stepIndex in
+                                    let isCompleted = stepIndex < currentStep
+                                    let isCurrent = stepIndex == currentStep - 1
+                                    
+                                    Rectangle()
+                                        .fill(isCompleted ? Color.black : (isCurrent ? Color.black.opacity(0.7) : Color.clear))
+                                        .frame(height: 8)
+                                        .cornerRadius(4)
+                                }
+                            }
+                        )
+                        .animation(.easeInOut(duration: 0.3), value: currentStep)
+                    }
                 }
             }
-            .frame(height: 4)
+            .frame(height: 8)
         }
         .padding(.horizontal, 20)
         .padding(.top, 10)
@@ -562,4 +576,3 @@ struct SessionCompleteView: View {
         }
     }
 }
-

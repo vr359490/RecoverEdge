@@ -61,78 +61,15 @@ struct PlanGeneratorView: View {
                     }
                     .padding(.top, 20)
                     
-                    // Time Selection
-                    VStack(spacing: 12) {
-                        HStack(spacing: 12) {
-                            TimeButton(
-                                time: timeOptions[0],
-                                isSelected: selectedTime == timeOptions[0] && !showingCustomTime,
-                                action: {
-                                    selectedTime = timeOptions[0]
-                                    showingCustomTime = false
-                                }
-                            )
-                            
-                            TimeButton(
-                                time: timeOptions[1],
-                                isSelected: selectedTime == timeOptions[1] && !showingCustomTime,
-                                action: {
-                                    selectedTime = timeOptions[1]
-                                    showingCustomTime = false
-                                }
-                            )
-                        }
-                        
-                        HStack(spacing: 12) {
-                            TimeButton(
-                                time: timeOptions[2],
-                                isSelected: selectedTime == timeOptions[2] && !showingCustomTime,
-                                action: {
-                                    selectedTime = timeOptions[2]
-                                    showingCustomTime = false
-                                }
-                            )
-                            
-                            Button(action: { showingCustomTime.toggle() }) {
-                                VStack{
-                                    Image(systemName:"timer")
-                                        .font(.system(size: 35))
-                                    Text("CUSTOM")
-                                        .font(.system(size: 14, weight: .bold))
-                                }
-                                .padding(.horizontal, 30)
-                                .padding(.vertical, 30)
-                                .background(
-                                    Group {
-                                        if showingCustomTime {
-                                            LinearGradient(
-                                                colors: [Color.brandTeal, Color.brandTealDark,Color(r:30, g:80, b:80), Color.black],
-                                                startPoint: .bottom,
-                                                endPoint: .top
-                                            )
-                                        } else {
-                                            LinearGradient(
-                                                colors: [Color(r:98, g:252, b:236),Color.brandTeal, Color(r:80, g:190, b:190), Color(r:50, g:123, b:127)],
-                                                startPoint: .bottom,
-                                                endPoint: .top
-                                            )
-                                        }
-                                    }
-                                )
-                                .foregroundColor(showingCustomTime ? .white : .primary)
-                                .cornerRadius(20)
-                            }
-                        }
-                        
-                        if showingCustomTime {
-                            TextField("Enter minutes", text: $customTime)
-                                .keyboardType(.numberPad)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding(.horizontal, 40)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal)
+                    //This section added from Claude
+                    ResponsiveTimeSelectionView(
+                        selectedTime: $selectedTime,
+                        showingCustomTime: $showingCustomTime,
+                        customTime: $customTime,
+                        timeOptions: timeOptions
+                    )
+                    .frame(height: 300) // Fixed height instead of percentage
+                    .padding(.horizontal, 16)
                     
                     Spacer()
                     
