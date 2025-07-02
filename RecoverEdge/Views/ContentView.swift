@@ -419,13 +419,14 @@ struct PlanWrapper: Identifiable {
     let totalTime: Int
 }
 
-// MARK: - Generated Plan View
+// MARK: - Updated Generated Plan View
 struct GeneratedPlanView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     let methods: [RecoveryMethod]
     let totalTime: Int
     @Environment(\.presentationMode) var presentationMode
     @State private var showingResearch: RecoveryMethod?
+    @State private var showingGuidedSession = false // New state for guided session
     
     var body: some View {
         NavigationView {
@@ -470,6 +471,40 @@ struct GeneratedPlanView: View {
                                 showResearchAction: { showingResearch = method }
                             )
                         }
+                        
+                        // Get Started Button - Only show if there are methods
+                        VStack(spacing: 16) {
+                            Button(action: {
+                                showingGuidedSession = true
+                            }) {
+                                HStack(spacing: 12) {
+                                    Image(systemName: "play.circle.fill")
+                                        .font(.title2)
+                                    Text("Get Started")
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                }
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.brandTeal, Color.brandTealDark],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .cornerRadius(12)
+                                .shadow(color: Color.brandTeal.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                            
+                            Text("Start your guided recovery session")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 24)
+                        .padding(.bottom, 40)
                     }
                     
                     Spacer(minLength: 100)
@@ -487,6 +522,9 @@ struct GeneratedPlanView: View {
         }
         .sheet(item: $showingResearch) { method in
             ResearchView(method: method)
+        }
+        .fullScreenCover(isPresented: $showingGuidedSession) {
+            GuidedRecoveryView(methods: methods, totalTime: totalTime)
         }
     }
 }
