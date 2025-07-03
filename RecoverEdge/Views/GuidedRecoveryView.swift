@@ -67,7 +67,7 @@ struct GuidedRecoveryView: View {
                                             .font(.headline)
                                             .padding(.horizontal)
                                         
-                                        VimeoPlayerView(vimeoID: vimeoID, shouldAutoplay: true)
+                                        VimeoPlayerView(vimeoID: vimeoID, shouldAutoplay: false)
                                             .frame(height: 200)
                                             .cornerRadius(12)
                                             .padding(.horizontal)

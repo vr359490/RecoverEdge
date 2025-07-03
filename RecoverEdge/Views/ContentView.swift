@@ -20,15 +20,96 @@ struct ContentView: View {
                     Text("Chat")
                 }
             
-            RecoveryLibraryView()
+            SettingsListView()
                 .tabItem {
-                    Image(systemName: "books.vertical")
-                    Text("Library")
+                    Image(systemName: "list.bullet")
+                    Text("Settings")
                 }
                 .environmentObject(dataStore)
+            
+//            RecoveryLibraryView()
+//                .tabItem {
+//                    Image(systemName: "books.vertical")
+//                    Text("Library")
+//                }
+//                .environmentObject(dataStore)
 
         }
         .accentColor(Color.brandTeal2)
+    }
+}
+
+struct SettingsRow: View {
+    let iconName: String
+    let title: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: iconName)
+                .foregroundColor(.gray)
+                .frame(width: 24, height: 24)
+            
+            Text(title)
+                .foregroundColor(.primary)
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(.gray)
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal)
+    }
+}
+
+//struct SettingsListView: View {
+//    var body: some View {
+//        VStack(spacing: 0) {
+//            NavigationLink(destination: RecoveryLibraryView()) {
+//                SettingsRow(iconName: "laptopcomputer", title: "About")
+//            }
+//            Divider()
+//            NavigationLink(destination: Text("Software Update Screen")) {
+//                SettingsRow(iconName: "gearshape", title: "Software Update")
+//            }
+//            Divider()
+//            NavigationLink(destination: Text("Storage Screen")) {
+//                SettingsRow(iconName: "internaldrive", title: "Storage")
+//            }
+//        }
+//        .background(
+//            RoundedRectangle(cornerRadius: 12)
+//                .fill(Color(UIColor.secondarySystemBackground))
+//        )
+//        .padding()
+//    }
+//}
+
+struct SettingsListView: View {
+    @EnvironmentObject var dataStore: RecoveryDataStore
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 0) {
+                NavigationLink(destination: RecoveryLibraryView().environmentObject(dataStore)) {
+                    SettingsRow(iconName: "books.vertical", title: "Recovery Library")
+                }
+                
+                
+                Divider()
+                //You can try 'dumbbell' for icon
+                NavigationLink(destination: LocationEquipmentSelectorView2()) {
+                    SettingsRow(iconName: "dumbbell", title: "Available Equipment")
+                }
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(UIColor.secondarySystemBackground))
+            )
+            .padding()
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.large)
+        }
     }
 }
 
@@ -140,6 +221,100 @@ struct PlanGeneratorView: View {
 }
 
 // MARK: - New Location & Equipment Selector Sheet
+struct LocationEquipmentSelectorView2: View {
+    @EnvironmentObject var dataStore: RecoveryDataStore
+    @Environment(\.presentationMode) var presentationMode
+    
+//    let selectedTime: Int
+//    let onPlanGenerated: ([RecoveryMethod]) -> Void
+    
+    @State private var selectedLocation: Location = .none
+    @State private var selectedEquipmentNames: Set<String> = []
+    @State private var isGenerating = false
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header with time context
+//                    VStack(spacing: 8) {
+//                        Text("Where will you recover?")
+//                            .font(.title2)
+//                            .fontWeight(.semibold)
+//                    }
+//                    .padding(.top, 10)
+                    
+                    // Location Selection
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Location")
+                            .font(.headline)
+                            .padding(.horizontal)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(Location.allCases.filter { $0 != .none }, id: \.self) { location in
+                                    LocationButton(
+                                        location: location,
+                                        isSelected: selectedLocation == location,
+                                        action: {
+                                            selectedLocation = location
+                                            selectedEquipmentNames.removeAll()
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                    
+                    // Equipment Selection (only show if location is selected)
+                    if selectedLocation != .none {
+                        VStack(alignment: .leading, spacing: 16) {
+                            VStack(alignment: .leading, spacing: 4) {
+//                                Text("Available Equipment")
+//                                    .font(.headline)
+                                Text("Select what you have access to")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(.horizontal)
+                            
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                                ForEach(selectedLocation.availableEquipment, id: \.id) { equipment in
+                                    EquipmentButton(
+                                        equipment: equipment,
+                                        isSelected: selectedEquipmentNames.contains(equipment.name),
+                                        action: {
+                                            if selectedEquipmentNames.contains(equipment.name) {
+                                                selectedEquipmentNames.remove(equipment.name)
+                                            } else {
+                                                selectedEquipmentNames.insert(equipment.name)
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .top).combined(with: .opacity),
+                            removal: .move(edge: .top).combined(with: .opacity)
+                        ))
+                    }
+                    Spacer()
+                }
+            }
+            //.navigationTitle("Step 2 of 2")
+            //.navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Available Equipment")
+        }
+        .animation(.easeInOut, value: selectedLocation)
+        
+    }
+    
+}
+
+// MARK: - New Location & Equipment Selector Sheet
 struct LocationEquipmentSelectorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @Environment(\.presentationMode) var presentationMode
@@ -242,6 +417,7 @@ struct LocationEquipmentSelectorView: View {
                                     .scaleEffect(0.8)
                                 Text("Generating...")
                             } else {
+                                Image(systemName: "sparkles")
                                 Text("Create My Recovery Plan")
                             }
                         }
