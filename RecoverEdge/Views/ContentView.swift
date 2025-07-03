@@ -41,6 +41,10 @@ struct PlanGeneratorView: View {
     @State private var showingLocationSelector = false
     @State private var planToPresent: [RecoveryMethod]? = nil
     
+     @State private var showingGuidedSession = false
+     @State private var guidedSessionMethods: [RecoveryMethod] = []
+     @State private var guidedSessionTime: Int = 0
+    
     let timeOptions = [15, 25, 45]
     
     var body: some View {
@@ -77,6 +81,7 @@ struct PlanGeneratorView: View {
                     Button(action: {
                         showingLocationSelector = true
                     }) {
+                        
                         Text("Generate Recovery Plan")
                             .font(.headline)
                             .foregroundColor(.white)
@@ -116,13 +121,29 @@ struct PlanGeneratorView: View {
              )
              .environmentObject(dataStore)
          }
-        .sheet(item: Binding<PlanWrapper?>(
-            get: { planToPresent.map { PlanWrapper(methods: $0, totalTime: getTotalTime()) } },
-            set: { _ in planToPresent = nil }
-        )) { planWrapper in
-            GeneratedPlanView(methods: planWrapper.methods, totalTime: planWrapper.totalTime)
-                .environmentObject(dataStore)
-        }
+         .sheet(item: Binding<PlanWrapper?>(
+             get: { planToPresent.map { PlanWrapper(methods: $0, totalTime: getTotalTime()) } },
+             set: { _ in planToPresent = nil }
+         )) { planWrapper in
+             GeneratedPlanView(
+                 methods: planWrapper.methods,
+                 totalTime: planWrapper.totalTime,
+                 onStartGuidedSession: {
+                     // Store the plan data for guided session
+                     guidedSessionMethods = planWrapper.methods
+                     guidedSessionTime = planWrapper.totalTime
+                     
+                     // Show guided session after a small delay
+                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                         showingGuidedSession = true
+                     }
+                 }
+             )
+             .environmentObject(dataStore)
+         }
+         .fullScreenCover(isPresented: $showingGuidedSession) {
+             GuidedRecoveryView(methods: guidedSessionMethods, totalTime: guidedSessionTime)
+         }
     }
     
     private var canGenerate: Bool {
@@ -255,6 +276,7 @@ struct SimpleLocationSelectorView: View {
                                     .scaleEffect(0.8)
                                 Text("Generating...")
                             } else {
+                                Image(systemName: "sparkles")
                                 Text("Generate Recovery Plan")
                             }
                         }
@@ -417,7 +439,9 @@ struct GeneratedPlanView: View {
     let totalTime: Int
     @Environment(\.presentationMode) var presentationMode
     @State private var showingResearch: RecoveryMethod?
-    @State private var showingGuidedSession = false
+    
+    // Add callback for when user wants to start guided session
+    let onStartGuidedSession: () -> Void
     
     var body: some View {
         NavigationView {
@@ -466,7 +490,9 @@ struct GeneratedPlanView: View {
                         // Get Started Button - Only show if there are methods
                         VStack(spacing: 16) {
                             Button(action: {
-                                showingGuidedSession = true
+                                // Close this view and trigger guided session from parent
+                                presentationMode.wrappedValue.dismiss()
+                                onStartGuidedSession()
                             }) {
                                 HStack(spacing: 12) {
                                     Image(systemName: "play.circle.fill")
@@ -513,9 +539,6 @@ struct GeneratedPlanView: View {
         }
         .sheet(item: $showingResearch) { method in
             ResearchView(method: method)
-        }
-        .fullScreenCover(isPresented: $showingGuidedSession) {
-            GuidedRecoveryView(methods: methods, totalTime: totalTime)
         }
     }
 }
