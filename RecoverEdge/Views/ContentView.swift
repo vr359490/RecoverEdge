@@ -26,90 +26,9 @@ struct ContentView: View {
                     Text("Settings")
                 }
                 .environmentObject(dataStore)
-            
-//            RecoveryLibraryView()
-//                .tabItem {
-//                    Image(systemName: "books.vertical")
-//                    Text("Library")
-//                }
-//                .environmentObject(dataStore)
 
         }
         .accentColor(Color.brandTeal2)
-    }
-}
-
-struct SettingsRow: View {
-    let iconName: String
-    let title: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: iconName)
-                .foregroundColor(.gray)
-                .frame(width: 24, height: 24)
-            
-            Text(title)
-                .foregroundColor(.primary)
-            
-            Spacer()
-            
-            Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
-        }
-        .padding(.vertical, 12)
-        .padding(.horizontal)
-    }
-}
-
-//struct SettingsListView: View {
-//    var body: some View {
-//        VStack(spacing: 0) {
-//            NavigationLink(destination: RecoveryLibraryView()) {
-//                SettingsRow(iconName: "laptopcomputer", title: "About")
-//            }
-//            Divider()
-//            NavigationLink(destination: Text("Software Update Screen")) {
-//                SettingsRow(iconName: "gearshape", title: "Software Update")
-//            }
-//            Divider()
-//            NavigationLink(destination: Text("Storage Screen")) {
-//                SettingsRow(iconName: "internaldrive", title: "Storage")
-//            }
-//        }
-//        .background(
-//            RoundedRectangle(cornerRadius: 12)
-//                .fill(Color(UIColor.secondarySystemBackground))
-//        )
-//        .padding()
-//    }
-//}
-
-struct SettingsListView: View {
-    @EnvironmentObject var dataStore: RecoveryDataStore
-    
-    var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                NavigationLink(destination: RecoveryLibraryView().environmentObject(dataStore)) {
-                    SettingsRow(iconName: "books.vertical", title: "Recovery Library")
-                }
-                
-                
-                Divider()
-                //You can try 'dumbbell' for icon
-                NavigationLink(destination: LocationEquipmentSelectorView2()) {
-                    SettingsRow(iconName: "dumbbell", title: "Available Equipment")
-                }
-            }
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.secondarySystemBackground))
-            )
-            .padding()
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.large)
-        }
     }
 }
 
@@ -186,16 +105,17 @@ struct PlanGeneratorView: View {
             .navigationTitle("RecoverEdge")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .sheet(isPresented: $showingLocationSelector) {
-            LocationEquipmentSelectorView(
-                selectedTime: getTotalTime(),
-                onPlanGenerated: { plan in
-                    planToPresent = plan
-                    showingLocationSelector = false
-                }
-            )
-            .environmentObject(dataStore)
-        }
+
+         .sheet(isPresented: $showingLocationSelector) {
+             SimpleLocationSelectorView(
+                 selectedTime: getTotalTime(),
+                 onPlanGenerated: { plan in
+                     planToPresent = plan
+                     showingLocationSelector = false
+                 }
+             )
+             .environmentObject(dataStore)
+         }
         .sheet(item: Binding<PlanWrapper?>(
             get: { planToPresent.map { PlanWrapper(methods: $0, totalTime: getTotalTime()) } },
             set: { _ in planToPresent = nil }
@@ -218,276 +138,30 @@ struct PlanGeneratorView: View {
         }
         return selectedTime
     }
-}
-
-// MARK: - New Location & Equipment Selector Sheet
-struct LocationEquipmentSelectorView2: View {
-    @EnvironmentObject var dataStore: RecoveryDataStore
-    @Environment(\.presentationMode) var presentationMode
     
-//    let selectedTime: Int
-//    let onPlanGenerated: ([RecoveryMethod]) -> Void
-    
-    @State private var selectedLocation: Location = .none
-    @State private var selectedEquipmentNames: Set<String> = []
-    @State private var isGenerating = false
-    
-    var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Header with time context
-//                    VStack(spacing: 8) {
-//                        Text("Where will you recover?")
-//                            .font(.title2)
-//                            .fontWeight(.semibold)
-//                    }
-//                    .padding(.top, 10)
-                    
-                    // Location Selection
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text("Location")
-                            .font(.headline)
-                            .padding(.horizontal)
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 12) {
-                                ForEach(Location.allCases.filter { $0 != .none }, id: \.self) { location in
-                                    LocationButton(
-                                        location: location,
-                                        isSelected: selectedLocation == location,
-                                        action: {
-                                            selectedLocation = location
-                                            selectedEquipmentNames.removeAll()
-                                        }
-                                    )
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
-                    
-                    // Equipment Selection (only show if location is selected)
-                    if selectedLocation != .none {
-                        VStack(alignment: .leading, spacing: 16) {
-                            VStack(alignment: .leading, spacing: 4) {
-//                                Text("Available Equipment")
-//                                    .font(.headline)
-                                Text("Select what you have access to")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(.horizontal)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                                ForEach(selectedLocation.availableEquipment, id: \.id) { equipment in
-                                    EquipmentButton(
-                                        equipment: equipment,
-                                        isSelected: selectedEquipmentNames.contains(equipment.name),
-                                        action: {
-                                            if selectedEquipmentNames.contains(equipment.name) {
-                                                selectedEquipmentNames.remove(equipment.name)
-                                            } else {
-                                                selectedEquipmentNames.insert(equipment.name)
-                                            }
-                                        }
-                                    )
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                        .transition(.asymmetric(
-                            insertion: .move(edge: .top).combined(with: .opacity),
-                            removal: .move(edge: .top).combined(with: .opacity)
-                        ))
-                    }
-                    Spacer()
-                }
-            }
-            //.navigationTitle("Step 2 of 2")
-            //.navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Available Equipment")
-        }
-        .animation(.easeInOut, value: selectedLocation)
+    // Replace the generateFinalPlan method with this updated version:
+    private func generateFinalPlan(for location: Location) -> [RecoveryMethod] {
+        let equipmentManager = EquipmentPreferencesManager.shared
         
-    }
-    
-}
-
-// MARK: - New Location & Equipment Selector Sheet
-struct LocationEquipmentSelectorView: View {
-    @EnvironmentObject var dataStore: RecoveryDataStore
-    @Environment(\.presentationMode) var presentationMode
-    
-    let selectedTime: Int
-    let onPlanGenerated: ([RecoveryMethod]) -> Void
-    
-    @State private var selectedLocation: Location = .none
-    @State private var selectedEquipmentNames: Set<String> = []
-    @State private var isGenerating = false
-    
-    var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Header with time context
-                    VStack(spacing: 8) {
-                        Text("Where will you recover?")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                        
-                        Text("Your \(selectedTime)-minute session")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 4)
-                            .background(Color.brandTeal.opacity(0.1))
-                            .cornerRadius(8)
-                    }
-                    .padding(.top, 10)
-                    
-                    // Location Selection
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text("Location")
-                            .font(.headline)
-                            .padding(.horizontal)
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 12) {
-                                ForEach(Location.allCases.filter { $0 != .none }, id: \.self) { location in
-                                    LocationButton(
-                                        location: location,
-                                        isSelected: selectedLocation == location,
-                                        action: {
-                                            selectedLocation = location
-                                            selectedEquipmentNames.removeAll()
-                                        }
-                                    )
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
-                    
-                    // Equipment Selection (only show if location is selected)
-                    if selectedLocation != .none {
-                        VStack(alignment: .leading, spacing: 16) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Available Equipment")
-                                    .font(.headline)
-                                Text("Select what you have access to")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(.horizontal)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                                ForEach(selectedLocation.availableEquipment, id: \.id) { equipment in
-                                    EquipmentButton(
-                                        equipment: equipment,
-                                        isSelected: selectedEquipmentNames.contains(equipment.name),
-                                        action: {
-                                            if selectedEquipmentNames.contains(equipment.name) {
-                                                selectedEquipmentNames.remove(equipment.name)
-                                            } else {
-                                                selectedEquipmentNames.insert(equipment.name)
-                                            }
-                                        }
-                                    )
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-//                        .transition(.opacity.combined(with: .scale(scale: 0.98)))
-//                        .animation(.easeInOut, value: selectedLocation)
-                        .transition(.asymmetric(
-                            insertion: .move(edge: .top).combined(with: .opacity),
-                            removal: .move(edge: .top).combined(with: .opacity)
-                        ))
-                    }
-                    
-                    Spacer()
-                    
-                    // Generate Final Plan Button
-                    Button(action: generateFinalPlan) {
-                        HStack {
-                            if isGenerating {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .scaleEffect(0.8)
-                                Text("Generating...")
-                            } else {
-                                Image(systemName: "sparkles")
-                                Text("Create My Recovery Plan")
-                            }
-                        }
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            Group {
-                                if canGenerateFinalPlan && !isGenerating {
-                                    LinearGradient(
-                                        colors: [Color.brandTeal, Color.brandTealDark],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                } else {
-                                    Color.gray
-                                }
-                            }
-                        )
-                        .cornerRadius(12)
-                    }
-                    .disabled(!canGenerateFinalPlan || isGenerating)
-                    .padding(.horizontal)
-                    .padding(.bottom, 20)
-                }
-            }
-            .navigationTitle("Step 2 of 2")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Back") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            }
-        }
-        .animation(.easeInOut, value: selectedLocation)
-    }
-    
-    private var canGenerateFinalPlan: Bool {
-        selectedLocation != .none
-    }
-    
-    private func generateFinalPlan() {
-        isGenerating = true
+        // Get saved equipment for the selected location
+        let savedEquipment = Array(equipmentManager.getEquipment(for: location))
         
-        // Add small delay for better UX
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let plan = generatePlan()
-            onPlanGenerated(plan)
-            isGenerating = false
-        }
+        // Generate plan using saved equipment preferences
+        return generatePlan(selectedLocation: location, availableEquipment: savedEquipment)
     }
     
-    private func generatePlan() -> [RecoveryMethod] {
-        // Your existing plan generation logic
-        let availableEquipmentNames = Array(selectedEquipmentNames)
-        
+    private func generatePlan(selectedLocation: Location, availableEquipment: [String]) -> [RecoveryMethod] {
         let suitableMethods = dataStore.recoveryMethods.filter { method in
             if method.equipment.isEmpty {
                 return true
             }
             return method.equipment.allSatisfy { requiredEquipment in
-                availableEquipmentNames.contains(requiredEquipment)
+                availableEquipment.contains(requiredEquipment)
             }
         }
         
         var plan: [RecoveryMethod] = []
-        var remainingTime = selectedTime
+        var remainingTime = getTotalTime()
         var shuffledMethods = suitableMethods.shuffled()
         
         // Always include breathing if time allows
@@ -525,6 +199,210 @@ struct LocationEquipmentSelectorView: View {
     }
 }
 
+// MARK: - Simplified Location Selector for Plan Generation
+struct SimpleLocationSelectorView: View {
+    @EnvironmentObject var dataStore: RecoveryDataStore
+    @Environment(\.presentationMode) var presentationMode
+    @StateObject private var equipmentManager = EquipmentPreferencesManager.shared
+    
+    let selectedTime: Int
+    let onPlanGenerated: ([RecoveryMethod]) -> Void
+    
+    @State private var selectedLocation: Location = .none
+    @State private var isGenerating = false
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 30) {
+                    // Header
+                    VStack(spacing: 8) {
+                        Text("Where will you recover?")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                        
+                        Text("Your \(selectedTime)-minute session")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 4)
+                            .background(Color.brandTeal.opacity(0.1))
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 20)
+                    
+                    // Location Selection with Equipment Preview
+                    VStack(spacing: 16) {
+                        ForEach(Location.allCases.filter { $0 != .none }, id: \.self) { location in
+                            LocationCardView(
+                                location: location,
+                                isSelected: selectedLocation == location,
+                                equipmentCount: equipmentManager.getEquipment(for: location).count,
+                                onSelect: { selectedLocation = location }
+                            )
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    Spacer()
+                    
+                    // Generate button
+                    Button(action: generatePlan) {
+                        HStack {
+                            if isGenerating {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                                Text("Generating...")
+                            } else {
+                                Text("Generate Recovery Plan")
+                            }
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            Group {
+                                if selectedLocation != .none && !isGenerating {
+                                    LinearGradient(
+                                        colors: [Color.brandTeal, Color.brandTealDark],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                } else {
+                                    Color.gray
+                                }
+                            }
+                        )
+                        .cornerRadius(12)
+                    }
+                    .disabled(selectedLocation == .none || isGenerating)
+                    .padding(.horizontal)
+                    .padding(.bottom, 30)
+                }
+            }
+            .navigationTitle("Choose Location")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Back") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func generatePlan() {
+        isGenerating = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let availableEquipment = Array(equipmentManager.getEquipment(for: selectedLocation))
+            let plan = generateRecoveryPlan(availableEquipment: availableEquipment)
+            onPlanGenerated(plan)
+            isGenerating = false
+        }
+    }
+    
+    private func generateRecoveryPlan(availableEquipment: [String]) -> [RecoveryMethod] {
+        // Filter methods based on available equipment
+        let suitableMethods = dataStore.recoveryMethods.filter { method in
+            if method.equipment.isEmpty {
+                return true // No equipment required
+            }
+            return method.equipment.allSatisfy { requiredEquipment in
+                availableEquipment.contains(requiredEquipment)
+            }
+        }
+        
+        var plan: [RecoveryMethod] = []
+        var remainingTime = selectedTime
+        var shuffledMethods = suitableMethods.shuffled()
+        
+        // Always include breathing if time allows
+        if let breathingMethod = shuffledMethods.first(where: { $0.category == "Breathing" }),
+           remainingTime >= breathingMethod.duration {
+            plan.append(breathingMethod)
+            remainingTime -= breathingMethod.duration
+            shuffledMethods.removeAll { $0.id == breathingMethod.id }
+        }
+        
+        // Add other methods based on remaining time
+        for method in shuffledMethods {
+            if remainingTime >= method.duration {
+                plan.append(method)
+                remainingTime -= method.duration
+            }
+            
+            if remainingTime <= 2 { break } // Stop if very little time remains
+        }
+        
+        // Fallback logic if no methods were selected
+        if plan.isEmpty {
+            // Try to add at least a breathing method since it requires no equipment
+            if let breathingMethod = dataStore.recoveryMethods.first(where: { $0.category == "Breathing" }) {
+                plan.append(breathingMethod)
+            }
+        }
+        
+        return plan
+    }
+}
+
+// MARK: - Location Card View
+struct LocationCardView: View {
+    let location: Location
+    let isSelected: Bool
+    let equipmentCount: Int
+    let onSelect: () -> Void
+    
+    var body: some View {
+        Button(action: onSelect) {
+            HStack {
+                Image(systemName: iconForLocation(location))
+                    .font(.title2)
+                    .frame(width: 30)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(location.rawValue)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Text("\(equipmentCount) equipment items configured")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(isSelected ? .brandTeal : .gray)
+                    .font(.title3)
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? Color.brandTeal.opacity(0.1) : Color(.systemGray6))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(isSelected ? Color.brandTeal : Color.clear, lineWidth: 2)
+            )
+        }
+    }
+    
+    private func iconForLocation(_ location: Location) -> String {
+        switch location {
+        case .gym: return "dumbbell"
+        case .hotel: return "bed.double"
+        case .home: return "house"
+        case .court: return "sportscourt"
+        case .none: return ""
+        }
+    }
+}
+
 // Helper wrapper for sheet presentation
 struct PlanWrapper: Identifiable {
     let id = UUID()
@@ -539,7 +417,7 @@ struct GeneratedPlanView: View {
     let totalTime: Int
     @Environment(\.presentationMode) var presentationMode
     @State private var showingResearch: RecoveryMethod?
-    @State private var showingGuidedSession = false // New state for guided session
+    @State private var showingGuidedSession = false
     
     var body: some View {
         NavigationView {
@@ -686,9 +564,7 @@ struct MethodCard: View {
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                         }
-                        
                         Spacer()
-                        
                     }
                     
                     // Video player with autoplay
@@ -859,7 +735,6 @@ struct ResearchView: View {
 }
 
 // MARK: - Recovery Library View
-
 struct RecoveryLibraryView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @State private var showingResearch: RecoveryMethod?
