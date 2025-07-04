@@ -29,12 +29,12 @@ struct Equipment: Identifiable, Hashable {
     }
 }
 
-// MARK: - Updated Location Enum 
+// MARK: - Updated Location Enum
 enum Location: String, CaseIterable {
     case gym = "Gym"
     case hotel = "Hotel"
     case home = "Home"
-    case court = "Court"  // Changed from outdoors = "Outdoors"
+    case court = "Court"
     case none = ""
 
     var availableEquipment: [Equipment] {
@@ -42,6 +42,7 @@ enum Location: String, CaseIterable {
         case .none: return []
         case .gym:
             return [
+                // Original equipment
                 Equipment(name: "Foam Roller", category: "Recovery"),
                 Equipment(name: "Massage Gun", category: "Recovery"),
                 Equipment(name: "Yoga Mat", category: "Mat"),
@@ -49,18 +50,31 @@ enum Location: String, CaseIterable {
                 Equipment(name: "Lacrosse Ball", category: "Recovery"),
                 Equipment(name: "Stretching Straps", category: "Bands"),
                 Equipment(name: "Ice Bath", category: "Temperature"),
-                Equipment(name: "Sauna", category: "Temperature")
+                Equipment(name: "Sauna", category: "Temperature"),
+                // New equipment
+                Equipment(name: "Red Light Therapy", category: "Light Therapy"),
+                Equipment(name: "Cold Tank", category: "Temperature"),
+                Equipment(name: "Hot Tank", category: "Temperature"),
+                Equipment(name: "Normatec", category: "Compression"),
+                Equipment(name: "Vibration Plate", category: "Vibration"),
+                Equipment(name: "Hypervolt Gun", category: "Percussion"),
+                Equipment(name: "Hot Pad", category: "Temperature")
             ]
         case .hotel:
             return [
+                // Original equipment
                 Equipment(name: "Towel", category: "Basic"),
                 Equipment(name: "Pillow", category: "Basic"),
                 Equipment(name: "Wall", category: "Basic"),
                 Equipment(name: "Chair", category: "Furniture"),
-                Equipment(name: "Bathtub", category: "Water")
+                Equipment(name: "Bathtub", category: "Water"),
+                // Updated equipment
+                Equipment(name: "Sauna", category: "Temperature"), // Many hotels have spas
+                Equipment(name: "Hot Pad", category: "Temperature") // Travel-friendly
             ]
         case .home:
             return [
+                // Original equipment
                 Equipment(name: "Foam Roller", category: "Recovery"),
                 Equipment(name: "Yoga Mat", category: "Mat"),
                 Equipment(name: "Resistance Bands", category: "Bands"),
@@ -68,15 +82,20 @@ enum Location: String, CaseIterable {
                 Equipment(name: "Towel", category: "Basic"),
                 Equipment(name: "Wall", category: "Basic"),
                 Equipment(name: "Stairs", category: "Structure"),
-                Equipment(name: "Ice Pack", category: "Temperature")
+                Equipment(name: "Ice Pack", category: "Temperature"),
+                // New equipment
+                Equipment(name: "Hypervolt Gun", category: "Percussion"),
+                Equipment(name: "Hot Pad", category: "Temperature")
             ]
-        case .court:  // Changed from .outdoors
+        case .court:
             return [
+                // Original equipment
                 Equipment(name: "Ground", category: "Basic"),
                 Equipment(name: "Bench", category: "Furniture"),
                 Equipment(name: "Water Bottle", category: "Basic"),
-                Equipment(name: "Court Wall", category: "Structure"),  // More specific than just "Tree"
-                Equipment(name: "Towel", category: "Basic")  // Added towel as courts often have them
+                Equipment(name: "Court Wall", category: "Structure"),
+                Equipment(name: "Towel", category: "Basic")
+                // Note: Stretches can be done anywhere, so no equipment needed
             ]
         }
     }
@@ -103,17 +122,17 @@ struct RecoveryPlan: Identifiable {
     let suitableLocations: [Location]
 }
 
-
 // MARK: - Data Store
 class RecoveryDataStore: ObservableObject {
     let recoveryMethods: [RecoveryMethod] = [
+        // MARK: - Original Recovery Methods
         RecoveryMethod(
             name: "Legs Up The Wall",
             description: "Lie on your back with legs elevated against a wall",
             duration: 10,
             equipment: ["Wall"],
             difficulty: 1,
-            videoURL: "676247342",
+            videoURL: "251521648",
             researchInfo: "This passive inversion helps improve venous return, reducing swelling and promoting relaxation. Studies show it can help lower heart rate and activate the parasympathetic nervous system.",
             category: "Passive Recovery"
         ),
@@ -123,7 +142,7 @@ class RecoveryDataStore: ObservableObject {
             duration: 8,
             equipment: ["Foam Roller"],
             difficulty: 2,
-            videoURL: "676247342",
+            videoURL: "224710839",
             researchInfo: "Foam rolling helps break up fascial adhesions and improve blood flow. Research indicates it can reduce muscle soreness by 13% and improve range of motion.",
             category: "Self Massage"
         ),
@@ -186,6 +205,258 @@ class RecoveryDataStore: ObservableObject {
             videoURL: nil,
             researchInfo: "Plantar fascia release improves foot mobility and can reduce lower leg tension. Particularly beneficial for runners and athletes.",
             category: "Self Massage"
+        ),
+        
+        // MARK: - New Recovery Methods with New Equipment
+        
+        // Red Light Therapy
+        RecoveryMethod(
+            name: "Red Light Recovery Session",
+            description: "Expose targeted muscle groups to red light therapy for cellular recovery",
+            duration: 15,
+            equipment: ["Red Light Therapy"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Red light therapy (660-850nm) penetrates tissue to stimulate mitochondrial function and reduce inflammation. Studies show 20-40% reduction in muscle fatigue and improved recovery time.",
+            category: "Light Therapy"
+        ),
+        RecoveryMethod(
+            name: "Red Light Joint Therapy",
+            description: "Focus red light on sore joints and areas of inflammation",
+            duration: 12,
+            equipment: ["Red Light Therapy"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Photobiomodulation therapy reduces joint inflammation and pain. Clinical studies demonstrate significant improvements in range of motion and reduced stiffness.",
+            category: "Light Therapy"
+        ),
+        
+        // Sauna
+        RecoveryMethod(
+            name: "Sauna Recovery Session",
+            description: "Sit in sauna at 160-180°F for heat therapy and relaxation",
+            duration: 20,
+            equipment: ["Sauna"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Heat therapy increases blood flow, promotes muscle relaxation, and triggers heat shock proteins. Regular sauna use can improve cardiovascular health and reduce inflammation markers.",
+            category: "Temperature"
+        ),
+        
+        // Cold Tank
+        RecoveryMethod(
+            name: "Cold Tank Immersion",
+            description: "Full body immersion in cold tank (45-55°F) for inflammation control",
+            duration: 4,
+            equipment: ["Cold Tank"],
+            difficulty: 3,
+            videoURL: nil,
+            researchInfo: "Cold water immersion reduces muscle damage markers and inflammation. Studies show 10-24% reduction in muscle soreness when used within 1 hour post-exercise.",
+            category: "Temperature"
+        ),
+        
+        // Hot Tank
+        RecoveryMethod(
+            name: "Hot Tank Therapy",
+            description: "Warm water immersion (98-104°F) for muscle relaxation and circulation",
+            duration: 15,
+            equipment: ["Hot Tank"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Warm water immersion increases blood flow and reduces muscle tension. The hydrostatic pressure aids lymphatic drainage and reduces swelling.",
+            category: "Temperature"
+        ),
+        
+        // Contrast Therapy
+        RecoveryMethod(
+            name: "Contrast Hot-Cold Therapy",
+            description: "Alternate between hot tank (3 min) and cold tank (1 min) for 3 cycles",
+            duration: 12,
+            equipment: ["Hot Tank", "Cold Tank"],
+            difficulty: 3,
+            videoURL: nil,
+            researchInfo: "Contrast therapy creates a vascular pump effect, alternately vasodilating and vasoconstricting blood vessels. This enhances circulation and waste product removal.",
+            category: "Temperature"
+        ),
+        
+        // Normatec
+        RecoveryMethod(
+            name: "Normatec Leg Recovery",
+            description: "Full leg compression therapy using pneumatic compression",
+            duration: 30,
+            equipment: ["Normatec"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Pneumatic compression therapy enhances venous return and lymphatic drainage. Studies show 15-20% improvement in subsequent performance and reduced muscle soreness.",
+            category: "Compression Therapy"
+        ),
+        RecoveryMethod(
+            name: "Normatec Arm Recovery",
+            description: "Upper body compression therapy for arms and shoulders",
+            duration: 20,
+            equipment: ["Normatec"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Upper body compression therapy improves circulation in arms and shoulders. Particularly effective for overhead athletes and those with upper body fatigue.",
+            category: "Compression Therapy"
+        ),
+        
+        // Vibration Plate
+        RecoveryMethod(
+            name: "Vibration Plate Recovery",
+            description: "Stand on vibration plate with gentle movements for muscle activation",
+            duration: 8,
+            equipment: ["Vibration Plate"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Whole body vibration stimulates muscle spindles and improves neuromuscular control. Research shows improved flexibility and reduced muscle soreness.",
+            category: "Active Recovery"
+        ),
+        RecoveryMethod(
+            name: "Vibration Plate Stretching",
+            description: "Perform static stretches while standing on vibration plate",
+            duration: 10,
+            equipment: ["Vibration Plate"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Vibration-assisted stretching can improve flexibility gains by 25-40% compared to static stretching alone through enhanced muscle relaxation.",
+            category: "Active Recovery"
+        ),
+        
+        // Hypervolt Gun
+        RecoveryMethod(
+            name: "Hypervolt Percussion Therapy",
+            description: "Target specific muscle groups with high-frequency percussion",
+            duration: 8,
+            equipment: ["Hypervolt Gun"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "High-frequency percussion therapy penetrates deeper than traditional massage guns. Clinical studies show improved range of motion and reduced muscle stiffness.",
+            category: "Percussion Therapy"
+        ),
+        
+        // Hot Pad
+        RecoveryMethod(
+            name: "Targeted Heat Therapy",
+            description: "Apply hot pad to sore muscles and joints for localized heat treatment",
+            duration: 15,
+            equipment: ["Hot Pad"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Localized heat therapy increases tissue temperature and blood flow. Effective for reducing muscle spasms and improving tissue elasticity before stretching.",
+            category: "Temperature"
+        ),
+        
+        // MARK: - Enhanced Stretching Methods
+        
+        // Shoulder Stretches
+        RecoveryMethod(
+            name: "Shoulder Mobility Routine",
+            description: "Comprehensive shoulder stretches including cross-body and overhead reaches",
+            duration: 8,
+            equipment: [],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Regular shoulder mobility work prevents impingement and maintains healthy shoulder mechanics. Essential for overhead athletes and desk workers.",
+            category: "Stretching"
+        ),
+        RecoveryMethod(
+            name: "Band-Assisted Shoulder Stretches",
+            description: "Use resistance bands for deeper shoulder and chest stretches",
+            duration: 10,
+            equipment: ["Resistance Bands"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Band-assisted stretching allows for greater range of motion and controlled tension. Studies show 15-20% greater flexibility improvements compared to unassisted stretching.",
+            category: "Stretching"
+        ),
+        
+        // Quad Stretches
+        RecoveryMethod(
+            name: "Quadriceps Stretch Routine",
+            description: "Standing and lying quad stretches to release hip flexors and quads",
+            duration: 6,
+            equipment: [],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Quadriceps stretching improves hip mobility and can reduce lower back tension. Critical for runners and cyclists who develop tight hip flexors.",
+            category: "Stretching"
+        ),
+        RecoveryMethod(
+            name: "Band-Assisted Quad Stretches",
+            description: "Use resistance bands for enhanced quadriceps and hip flexor stretching",
+            duration: 8,
+            equipment: ["Resistance Bands"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Band assistance allows for proper alignment and deeper stretches. Particularly effective for those with limited flexibility or balance issues.",
+            category: "Stretching"
+        ),
+        
+        // Calf Stretches
+        RecoveryMethod(
+            name: "Calf and Achilles Stretches",
+            description: "Stretch gastrocnemius and soleus muscles using wall and floor stretches",
+            duration: 6,
+            equipment: ["Wall"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Calf stretching prevents Achilles tendon injuries and improves ankle mobility. Essential for runners and prevents plantar fasciitis.",
+            category: "Stretching"
+        ),
+        RecoveryMethod(
+            name: "Band-Assisted Calf Stretches",
+            description: "Use resistance bands for seated and lying calf stretches",
+            duration: 7,
+            equipment: ["Resistance Bands"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Band-assisted calf stretching provides consistent tension and allows for progression. Effective for addressing calf tightness and improving dorsiflexion.",
+            category: "Stretching"
+        ),
+        
+        // Hamstring Stretches
+        RecoveryMethod(
+            name: "Hamstring Flexibility Routine",
+            description: "Standing and seated hamstring stretches for posterior chain mobility",
+            duration: 8,
+            equipment: [],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Hamstring flexibility reduces lower back stress and improves hip hinge mechanics. Critical for preventing hamstring strains in athletes.",
+            category: "Stretching"
+        ),
+        RecoveryMethod(
+            name: "Band-Assisted Hamstring Stretches",
+            description: "Use resistance bands for supine and seated hamstring stretches",
+            duration: 10,
+            equipment: ["Resistance Bands"],
+            difficulty: 1,
+            videoURL: nil,
+            researchInfo: "Band-assisted hamstring stretching allows for relaxed positioning and gradual progression. Studies show improved hamstring length and reduced injury risk.",
+            category: "Stretching"
+        ),
+        
+        // Glute Stretches
+        RecoveryMethod(
+            name: "Glute and Hip Stretch Routine",
+            description: "Figure-4 stretches and hip openers to release glute tension",
+            duration: 8,
+            equipment: [],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Glute stretching improves hip mobility and can reduce lower back pain. Essential for runners and those who sit for extended periods.",
+            category: "Stretching"
+        ),
+        RecoveryMethod(
+            name: "Band-Assisted Glute Stretches",
+            description: "Use resistance bands for enhanced glute and piriformis stretches",
+            duration: 10,
+            equipment: ["Resistance Bands"],
+            difficulty: 2,
+            videoURL: nil,
+            researchInfo: "Band assistance helps achieve proper hip positioning and deeper glute stretches. Effective for addressing piriformis syndrome and hip impingement.",
+            category: "Stretching"
         )
     ]
 
@@ -206,13 +477,19 @@ class RecoveryDataStore: ObservableObject {
             suitableLocations: [.home]
         ),
         RecoveryPlan(
-            name: "Gym Recovery Suite",
-            totalDuration: 45,
+            name: "Premium Gym Recovery",
+            totalDuration: 60,
             methods: [],
-            requiredEquipment: ["Foam Roller", "Massage Gun", "Ice Bath"],
+            requiredEquipment: ["Normatec", "Red Light Therapy", "Sauna", "Cold Tank"],
             suitableLocations: [.gym]
         ),
-        // Optional: Add a court-specific plan
+        RecoveryPlan(
+            name: "Standard Gym Recovery",
+            totalDuration: 45,
+            methods: [],
+            requiredEquipment: ["Foam Roller", "Massage Gun", "Vibration Plate"],
+            suitableLocations: [.gym]
+        ),
         RecoveryPlan(
             name: "Court Side Recovery",
             totalDuration: 12,

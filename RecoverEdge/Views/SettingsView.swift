@@ -58,3 +58,28 @@ struct SettingsListView: View {
         }
     }
 }
+
+// MARK: - Recovery Library View
+struct RecoveryLibraryView: View {
+    @EnvironmentObject var dataStore: RecoveryDataStore
+    @State private var showingResearch: RecoveryMethod?
+    
+    var body: some View {
+        NavigationView {
+            List {
+                Section("All Recovery Methods") {
+                    ForEach(dataStore.recoveryMethods) { method in
+                        MethodListRow(
+                            method: method,
+                            showResearchAction: { showingResearch = method }
+                        )
+                    }
+                }
+            }
+            .navigationTitle("Recovery Library")
+        }
+        .sheet(item: $showingResearch) { method in
+            ResearchView(method: method)
+        }
+    }
+}

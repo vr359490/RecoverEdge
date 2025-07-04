@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
 from datetime import datetime
-from typing import List, Dict, Any
+# from typing import List, Dict, Any
 
 # LangChain imports
 # from langchain.embeddings import OpenAIEmbeddings
@@ -20,9 +20,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # from langchain.llms import OpenAI
 from langchain_community.llms import OpenAI
 from langchain_community.chat_models import ChatOpenAI
-from langchain.chains import ConversationalRetrievalChain
-from langchain.memory import ConversationBufferMemory
-from langchain_community.document_loaders import TextLoader
+# from langchain.chains import ConversationalRetrievalChain
+# from langchain.memory import ConversationBufferMemory
+# from langchain_community.document_loaders import TextLoader
 from langchain.schema import Document
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
@@ -45,7 +45,7 @@ class RecoveryRAGSystem:
     def __init__(self):
         """Initialize the RAG system with recovery knowledge base"""
         self.embeddings = OpenAIEmbeddings()
-        self.llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
+        self.llm = ChatOpenAI(temperature=0.7, model_name="gpt-4o")
         self.vector_store = None
         self.qa_chain = None
         self.conversation_memory = {}

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: - Equipment Preferences Manager
+// MARK: - Equipment Preferences Manager (Updated for AvailableEquipmentView.swift)
 class EquipmentPreferencesManager: ObservableObject {
     static let shared = EquipmentPreferencesManager()
     
@@ -21,7 +21,7 @@ class EquipmentPreferencesManager: ObservableObject {
         setupSmartDefaults()
     }
     
-    // MARK: - Smart Defaults
+    // MARK: - Updated Smart Defaults with New Equipment
     private func setupSmartDefaults() {
         // Only set defaults if no preferences exist yet
         for location in Location.allCases where location != .none {
@@ -34,19 +34,51 @@ class EquipmentPreferencesManager: ObservableObject {
     func getSmartDefaults(for location: Location) -> Set<String> {
         switch location {
         case .gym:
-            return Set(["Foam Roller", "Yoga Mat", "Resistance Bands"])
+            // Include both basic and advanced equipment for comprehensive gym experience
+            return Set([
+                // Basic recovery equipment
+                "Foam Roller",
+                "Yoga Mat",
+                "Resistance Bands",
+                "Sauna",
+                // Advanced equipment for premium gyms
+                "Normatec",
+                "Vibration Plate",
+                "Hypervolt Gun"
+            ])
         case .hotel:
-            return Set(["Wall", "Towel", "Bathtub"])
+            // Focus on available amenities and portable items
+            return Set([
+                "Wall",
+                "Towel",
+                "Bathtub",
+                "Sauna", // Many hotels have spa facilities
+                "Hot Pad" // Travel-friendly recovery tool
+            ])
         case .home:
-            return Set(["Foam Roller", "Yoga Mat", "Towel", "Wall"])
+            // Personal equipment that people commonly own
+            return Set([
+                "Foam Roller",
+                "Yoga Mat",
+                "Towel",
+                "Wall",
+                "Resistance Bands",
+                "Hot Pad" // Affordable and effective home recovery tool
+            ])
         case .court:
-            return Set(["Ground", "Water Bottle", "Towel"])
+            // Basic items available at most courts plus bodyweight options
+            return Set([
+                "Ground",
+                "Water Bottle",
+                "Towel",
+                "Court Wall"
+            ])
         case .none:
             return Set()
         }
     }
     
-    // MARK: - Save/Load Methods
+    // MARK: - Save/Load Methods (unchanged)
     func saveEquipment(for location: Location, equipment: Set<String>) {
         savedEquipment[location] = equipment
         saveToUserDefaults()
@@ -82,7 +114,7 @@ class EquipmentPreferencesManager: ObservableObject {
         }
     }
     
-    // MARK: - Helper Methods
+    // MARK: - Helper Methods (unchanged)
     func hasCustomizedEquipment(for location: Location) -> Bool {
         let current = getEquipment(for: location)
         let defaults = getSmartDefaults(for: location)

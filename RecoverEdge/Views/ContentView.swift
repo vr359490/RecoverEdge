@@ -32,7 +32,7 @@ struct ContentView: View {
     }
 }
 
-//MARK: Plan Generator View - Updated Flow
+//MARK: Plan Generator View
 struct PlanGeneratorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @State private var selectedTime: Int = 0
@@ -220,7 +220,7 @@ struct PlanGeneratorView: View {
     }
 }
 
-// MARK: - Simplified Location Selector for Plan Generation
+// MARK: - Location Selector for Plan Generation
 struct SimpleLocationSelectorView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     @Environment(\.presentationMode) var presentationMode
@@ -432,7 +432,7 @@ struct PlanWrapper: Identifiable {
     let totalTime: Int
 }
 
-// MARK: - Updated Generated Plan View
+// MARK: - Generated Plan View
 struct GeneratedPlanView: View {
     @EnvironmentObject var dataStore: RecoveryDataStore
     let methods: [RecoveryMethod]
@@ -757,31 +757,6 @@ struct ResearchView: View {
     }
 }
 
-// MARK: - Recovery Library View
-struct RecoveryLibraryView: View {
-    @EnvironmentObject var dataStore: RecoveryDataStore
-    @State private var showingResearch: RecoveryMethod?
-    
-    var body: some View {
-        NavigationView {
-            List {
-                Section("All Recovery Methods") {
-                    ForEach(dataStore.recoveryMethods) { method in
-                        MethodListRow(
-                            method: method,
-                            showResearchAction: { showingResearch = method }
-                        )
-                    }
-                }
-            }
-            .navigationTitle("Recovery Library")
-        }
-        .sheet(item: $showingResearch) { method in
-            ResearchView(method: method)
-        }
-    }
-}
-
 struct MethodListRow: View {
     let method: RecoveryMethod
     let showResearchAction: () -> Void
@@ -804,13 +779,39 @@ struct MethodListRow: View {
                 .foregroundColor(.secondary)
                 .lineLimit(2)
             
+            // Equipment and category row
             HStack {
+                // Category badge
                 Text(method.category)
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
                     .background(Color.brandTeal.opacity(0.2))
                     .cornerRadius(4)
+                
+                // Equipment display
+                if !method.equipment.isEmpty {
+                    HStack(spacing: 4) {
+                        Image(systemName: "wrench.adjustable")
+                            .font(.caption2)
+                            .foregroundColor(.orange)
+                        
+                        Text(formatEquipmentList(method.equipment))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                    }
+                } else {
+                    HStack(spacing: 4) {
+                        Image(systemName: "hand.raised.fill")
+                            .font(.caption2)
+                            .foregroundColor(.green)
+                        
+                        Text("No equipment")
+                            .font(.caption)
+                            .foregroundColor(.green)
+                    }
+                }
                 
                 Spacer()
                 
@@ -825,5 +826,24 @@ struct MethodListRow: View {
             }
         }
         .padding(.vertical, 4)
+    }
+    
+    // MARK: - Helper Method
+    private func formatEquipmentList(_ equipment: [String]) -> String {
+        switch equipment.count {
+        case 0:
+            return "None"
+        case 1:
+            return equipment[0]
+        case 2:
+            return equipment.joined(separator: ", ")
+        case 3:
+            return equipment.joined(separator: ", ")
+        default:
+            // For 4+ items, show first two and count
+            let firstTwo = Array(equipment.prefix(2))
+            let remaining = equipment.count - 2
+            return "\(firstTwo.joined(separator: ", ")) +\(remaining) more"
+        }
     }
 }
