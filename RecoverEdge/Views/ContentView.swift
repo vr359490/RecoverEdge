@@ -14,7 +14,8 @@ struct ContentView: View {
                 }
                 .environmentObject(dataStore)
             
-            ChatView()
+            //ChatView()
+            EnhancedChatView()
                 .tabItem {
                     Image(systemName: "bubble.left")
                     Text("Chat")
