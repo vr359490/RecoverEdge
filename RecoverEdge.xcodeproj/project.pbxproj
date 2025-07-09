@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,8 +18,8 @@
 		12CBB31F2E14D4450031FD22 /* GuidedRecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBB31E2E14D4450031FD22 /* GuidedRecoveryView.swift */; };
 		12CBB3212E16C8150031FD22 /* AvailableEquipmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBB3202E16C8150031FD22 /* AvailableEquipmentView.swift */; };
 		12CBB3232E16D12A0031FD22 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBB3222E16D12A0031FD22 /* SettingsView.swift */; };
-		12CBB3252E1834250031FD22 /* DatabricksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBB3242E1834250031FD22 /* DatabricksService.swift */; };
 		12E0A0C52E0DCA6900D284A0 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C33F462E00A6FF00BA6067 /* Run.swift */; };
+		12F7A7CA2E1EE05A0012A35B /* DatabricksServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7A7C92E1EE0510012A35B /* DatabricksServiceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +56,13 @@
 		12CBB31E2E14D4450031FD22 /* GuidedRecoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedRecoveryView.swift; sourceTree = "<group>"; };
 		12CBB3202E16C8150031FD22 /* AvailableEquipmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableEquipmentView.swift; sourceTree = "<group>"; };
 		12CBB3222E16D12A0031FD22 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		12CBB3242E1834250031FD22 /* DatabricksService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabricksService.swift; sourceTree = "<group>"; };
 		12CCEF7D2E0E27EA00A75F74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		12F7A7C92E1EE0510012A35B /* DatabricksServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabricksServiceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		12CBB3262E196CE80031FD22 /* databricks */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = databricks; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		12C33F402E00A6FF00BA6067 /* Frameworks */ = {
@@ -96,8 +100,8 @@
 		120952382E0D842900837CD4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				12F7A7C92E1EE0510012A35B /* DatabricksServiceView.swift */,
 				12C33F482E00A6FF00BA6067 /* ContentView.swift */,
-				12CBB3242E1834250031FD22 /* DatabricksService.swift */,
 				12CBB3222E16D12A0031FD22 /* SettingsView.swift */,
 				12CBB3202E16C8150031FD22 /* AvailableEquipmentView.swift */,
 				12CBB31E2E14D4450031FD22 /* GuidedRecoveryView.swift */,
@@ -120,6 +124,7 @@
 			children = (
 				12C33F452E00A6FF00BA6067 /* RecoverEdge */,
 				12C33F442E00A6FF00BA6067 /* Products */,
+				12CBB3262E196CE80031FD22 /* databricks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -296,9 +301,9 @@
 				12CBB3212E16C8150031FD22 /* AvailableEquipmentView.swift in Sources */,
 				12C33F492E00A6FF00BA6067 /* ContentView.swift in Sources */,
 				120952352E0D83B100837CD4 /* VimeoVideoPlayer.swift in Sources */,
+				12F7A7CA2E1EE05A0012A35B /* DatabricksServiceView.swift in Sources */,
 				12CBB3232E16D12A0031FD22 /* SettingsView.swift in Sources */,
 				120669372E0D9A4A004EBB97 /* ChatView.swift in Sources */,
-				12CBB3252E1834250031FD22 /* DatabricksService.swift in Sources */,
 				12E0A0C52E0DCA6900D284A0 /* Run.swift in Sources */,
 				1209523C2E0D872600837CD4 /* Models.swift in Sources */,
 				12CBB31F2E14D4450031FD22 /* GuidedRecoveryView.swift in Sources */,
