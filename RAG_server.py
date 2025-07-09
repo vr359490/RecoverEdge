@@ -63,11 +63,6 @@ class LocalVectorStore:
         self.embeddings = OpenAIEmbeddings()
         
         if store_type == "chroma":
-            # Initialize Chroma
-            # self.client = chromadb.Client(Settings(
-            #     chroma_db_impl="duckdb+parquet",
-            #     persist_directory=str(LOCAL_DB_PATH / "chroma")
-            # ))
             self.client = chromadb.PersistentClient(path=str(LOCAL_DB_PATH / "chroma"))
             self.collection = self.client.get_or_create_collection(
                 name="recovery_methods",
