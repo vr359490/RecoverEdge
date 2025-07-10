@@ -25,7 +25,7 @@ from pyspark.sql import SparkSession
 # Vector search
 import faiss
 import chromadb
-from chromadb.config import Settings
+# from chromadb.config import Settings
 
 # ML imports
 import mlflow
@@ -434,108 +434,6 @@ class LocalMLflowModels:
         self.encoders = {}
         self.load_models()
     
-    def train_models(self, force_retrain: bool = False):
-        """Train recommendation models locally"""
-        models_exist = all([
-            (LOCAL_MODELS_PATH / "effectiveness_model.pkl").exists(),
-            (LOCAL_MODELS_PATH / "engagement_model.pkl").exists()
-        ])
-        
-        if models_exist and not force_retrain:
-            logger.info("Models already exist, skipping training")
-            return
-        
-        with mlflow.start_run(run_name="local_training"):
-            # Generate sample training data
-            # In production, load from your actual data
-            n_samples = 1000
-            
-            # Create synthetic features
-            np.random.seed(42)
-            X = pd.DataFrame({
-                'total_interactions': np.random.poisson(10, n_samples),
-                'unique_sessions': np.random.poisson(5, n_samples),
-                'avg_response_length': np.random.normal(100, 20, n_samples),
-                'total_sessions': np.random.poisson(8, n_samples),
-                'avg_session_duration': np.random.normal(15, 5, n_samples),
-                'avg_satisfaction': np.random.uniform(2, 5, n_samples),
-                'avg_methods_completed': np.random.uniform(1, 5, n_samples),
-                'completion_efficiency': np.random.uniform(0.3, 1.0, n_samples),
-                'avg_method_effectiveness': np.random.uniform(2, 5, n_samples),
-                'fitness_level': np.random.choice(['beginner', 'intermediate', 'advanced'], n_samples),
-                'age_group': np.random.choice(['18-25', '26-35', '36-45', '46+'], n_samples)
-            })
-            
-            # Encode categorical variables
-            le_fitness = LabelEncoder()
-            le_age = LabelEncoder()
-            
-            X['fitness_level_encoded'] = le_fitness.fit_transform(X['fitness_level'])
-            X['age_group_encoded'] = le_age.fit_transform(X['age_group'])
-            
-            # Store encoders
-            self.encoders['fitness_level'] = le_fitness
-            self.encoders['age_group'] = le_age
-            
-            # Select features
-            feature_cols = [
-                'total_interactions', 'unique_sessions', 'avg_response_length',
-                'total_sessions', 'avg_session_duration', 'avg_satisfaction',
-                'avg_methods_completed', 'completion_efficiency',
-                'avg_method_effectiveness', 'fitness_level_encoded', 'age_group_encoded'
-            ]
-            
-            X_features = X[feature_cols]
-            
-            # Train effectiveness model
-            y_effectiveness = X['avg_method_effectiveness']
-            X_train, X_test, y_train, y_test = train_test_split(
-                X_features, y_effectiveness, test_size=0.2, random_state=42
-            )
-            
-            effectiveness_model = GradientBoostingRegressor(
-                n_estimators=100,
-                learning_rate=0.1,
-                max_depth=6,
-                random_state=42
-            )
-            effectiveness_model.fit(X_train, y_train)
-            
-            # Save model
-            mlflow.sklearn.log_model(effectiveness_model, "effectiveness_model")
-            with open(LOCAL_MODELS_PATH / "effectiveness_model.pkl", 'wb') as f:
-                pickle.dump(effectiveness_model, f)
-            
-            # Train engagement model
-            y_engagement = (X['completion_efficiency'] >= 0.8).astype(int)
-            X_train, X_test, y_train, y_test = train_test_split(
-                X_features, y_engagement, test_size=0.2, random_state=42
-            )
-            
-            engagement_model = RandomForestClassifier(
-                n_estimators=100,
-                max_depth=10,
-                random_state=42
-            )
-            engagement_model.fit(X_train, y_train)
-            
-            # Save model
-            mlflow.sklearn.log_model(engagement_model, "engagement_model")
-            with open(LOCAL_MODELS_PATH / "engagement_model.pkl", 'wb') as f:
-                pickle.dump(engagement_model, f)
-            
-            # Save encoders
-            with open(LOCAL_MODELS_PATH / "encoders.pkl", 'wb') as f:
-                pickle.dump(self.encoders, f)
-            
-            # Log metrics
-            mlflow.log_metrics({
-                "effectiveness_train_score": effectiveness_model.score(X_train, y_train),
-                "effectiveness_test_score": effectiveness_model.score(X_test, y_test)
-            })
-            
-            logger.info("Models trained and saved")
-    
     def load_models(self):
         """Load saved models"""
         try:
@@ -658,8 +556,8 @@ class LocalMLflowModels:
 
 class LocalRAGSystem:
     """Complete local RAG system"""
-    
     def __init__(self):
+
         self.vector_store = LocalVectorStore(store_type="chroma")
         self.data_store = LocalDataStore()
         self.spark_processor = LocalSparkProcessor()
@@ -672,9 +570,36 @@ class LocalRAGSystem:
             chunk_size=500,
             chunk_overlap=50
         )
-        
+
         # Initialize system
         self.initialize()
+
+    def check_model_availability(self):
+        """Check if models are available, guide user if not"""
+        required_files = [
+            LOCAL_MODELS_PATH / "effectiveness_model.pkl",
+            LOCAL_MODELS_PATH / "engagement_model.pkl",
+            LOCAL_MODELS_PATH / "model_artifacts.pkl"
+        ]
+        
+        missing_files = [f for f in required_files if not f.exists()]
+        
+        if missing_files:
+            logger.warning("=" * 60)
+            logger.warning("MISSING ML MODELS!")
+            logger.warning("The following model files are missing:")
+            for file in missing_files:
+                logger.warning(f"  - {file}")
+            logger.warning("")
+            logger.warning("Please run the following commands to train models:")
+            logger.warning("  1. python feature_engineering.py")
+            logger.warning("  2. python model_training_beta.py")
+            logger.warning("=" * 60)
+            
+            # Still allow server to run with default recommendations
+            return False
+        
+        return True
     
     def initialize(self):
         """Initialize the local system"""
@@ -682,9 +607,11 @@ class LocalRAGSystem:
         
         # Load initial knowledge base
         self.load_initial_knowledge()
-        
-        # Train models if needed
-        self.ml_models.train_models()
+
+        # Check models (don't train here!)
+        models_available = self.check_model_availability()
+        if not models_available:
+            logger.info("Server will use default recommendations until models are trained")
         
         logger.info("Local RAG system initialized")
     
@@ -1032,21 +959,6 @@ def process_features():
             
     except Exception as e:
         logger.error(f"Error processing features: {e}")
-        return jsonify({"error": str(e)}), 500
-
-@app.route('/retrain_models', methods=['POST'])
-def retrain_models():
-    """Retrain ML models"""
-    try:
-        rag_system.ml_models.train_models(force_retrain=True)
-        
-        return jsonify({
-            "status": "success",
-            "message": "Models retrained successfully"
-        })
-        
-    except Exception as e:
-        logger.error(f"Error retraining models: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
