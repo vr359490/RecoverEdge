@@ -37,66 +37,57 @@ enum Location: String, CaseIterable {
     case court = "Court"
     case none = ""
 
+    // Static property containing all available equipment
+    static let allAvailableEquipment: [Equipment] = [
+        // Basic equipment
+        Equipment(name: "Towel", category: "Basic"),
+        Equipment(name: "Wall", category: "Basic"),
+        Equipment(name: "Ground", category: "Basic"),
+        Equipment(name: "Water Bottle", category: "Basic"),
+        Equipment(name: "Pillow", category: "Basic"),
+        
+        // Furniture/Structure
+        Equipment(name: "Chair", category: "Furniture"),
+        Equipment(name: "Bench", category: "Furniture"),
+        Equipment(name: "Stairs", category: "Structure"),
+        Equipment(name: "Court Wall", category: "Structure"),
+        
+        // Mats and Bands
+        Equipment(name: "Yoga Mat", category: "Mat"),
+        Equipment(name: "Resistance Bands", category: "Bands"),
+        Equipment(name: "Stretching Straps", category: "Bands"),
+        
+        // Recovery Equipment
+        Equipment(name: "Foam Roller", category: "Recovery"),
+        Equipment(name: "Massage Gun", category: "Recovery"),
+        Equipment(name: "Lacrosse Ball", category: "Recovery"),
+        Equipment(name: "Tennis Ball", category: "Recovery"),
+        Equipment(name: "Ice Pack", category: "Temperature"),
+        
+        // Water-based
+        Equipment(name: "Bathtub", category: "Water"),
+        Equipment(name: "Ice Bath", category: "Temperature"),
+        Equipment(name: "Cold Tank", category: "Temperature"),
+        Equipment(name: "Hot Tank", category: "Temperature"),
+        
+        // Temperature Therapy
+        Equipment(name: "Sauna", category: "Temperature"),
+        Equipment(name: "Hot Pad", category: "Temperature"),
+        
+        // Advanced Equipment
+        Equipment(name: "Red Light Therapy", category: "Light Therapy"),
+        Equipment(name: "Normatec", category: "Compression"),
+        Equipment(name: "Vibration Plate", category: "Vibration"),
+        Equipment(name: "Hypervolt Gun", category: "Percussion")
+    ]
+
     var availableEquipment: [Equipment] {
         switch self {
-        case .none: return []
-        case .gym:
-            return [
-                // Original equipment
-                Equipment(name: "Foam Roller", category: "Recovery"),
-                Equipment(name: "Massage Gun", category: "Recovery"),
-                Equipment(name: "Yoga Mat", category: "Mat"),
-                Equipment(name: "Resistance Bands", category: "Bands"),
-                Equipment(name: "Lacrosse Ball", category: "Recovery"),
-                Equipment(name: "Stretching Straps", category: "Bands"),
-                Equipment(name: "Ice Bath", category: "Temperature"),
-                Equipment(name: "Sauna", category: "Temperature"),
-                // New equipment
-                Equipment(name: "Red Light Therapy", category: "Light Therapy"),
-                Equipment(name: "Cold Tank", category: "Temperature"),
-                Equipment(name: "Hot Tank", category: "Temperature"),
-                Equipment(name: "Normatec", category: "Compression"),
-                Equipment(name: "Vibration Plate", category: "Vibration"),
-                Equipment(name: "Hypervolt Gun", category: "Percussion"),
-                Equipment(name: "Hot Pad", category: "Temperature")
-            ]
-        case .hotel:
-            return [
-                // Original equipment
-                Equipment(name: "Towel", category: "Basic"),
-                Equipment(name: "Pillow", category: "Basic"),
-                Equipment(name: "Wall", category: "Basic"),
-                Equipment(name: "Chair", category: "Furniture"),
-                Equipment(name: "Bathtub", category: "Water"),
-                // Updated equipment
-                Equipment(name: "Sauna", category: "Temperature"), // Many hotels have spas
-                Equipment(name: "Hot Pad", category: "Temperature") // Travel-friendly
-            ]
-        case .home:
-            return [
-                // Original equipment
-                Equipment(name: "Foam Roller", category: "Recovery"),
-                Equipment(name: "Yoga Mat", category: "Mat"),
-                Equipment(name: "Resistance Bands", category: "Bands"),
-                Equipment(name: "Tennis Ball", category: "Recovery"),
-                Equipment(name: "Towel", category: "Basic"),
-                Equipment(name: "Wall", category: "Basic"),
-                Equipment(name: "Stairs", category: "Structure"),
-                Equipment(name: "Ice Pack", category: "Temperature"),
-                // New equipment
-                Equipment(name: "Hypervolt Gun", category: "Percussion"),
-                Equipment(name: "Hot Pad", category: "Temperature")
-            ]
-        case .court:
-            return [
-                // Original equipment
-                Equipment(name: "Ground", category: "Basic"),
-                Equipment(name: "Bench", category: "Furniture"),
-                Equipment(name: "Water Bottle", category: "Basic"),
-                Equipment(name: "Court Wall", category: "Structure"),
-                Equipment(name: "Towel", category: "Basic")
-                // Note: Stretches can be done anywhere, so no equipment needed
-            ]
+        case .none:
+            return []
+        case .gym, .hotel, .home, .court:
+            // All locations now have access to all equipment
+            return Location.allAvailableEquipment
         }
     }
 }
